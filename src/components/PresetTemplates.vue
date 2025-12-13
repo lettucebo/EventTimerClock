@@ -1,6 +1,6 @@
 <template>
   <div class="preset-templates">
-    <h2>預設模板</h2>
+    <h2>{{ t('alarm.presetTemplates') }}</h2>
     <div class="templates-grid">
       <div 
         v-for="preset in allPresets" 
@@ -9,10 +9,10 @@
         @click="$emit('select', preset)"
       >
         <h3>{{ preset.name }}</h3>
-        <p class="total-time">總時間: {{ formatTime(preset.totalTime) }}</p>
+        <p class="total-time">{{ t('alarm.totalTime') }}: {{ formatTime(preset.totalTime) }}</p>
         <ul class="time-points">
           <li v-for="point in preset.timePoints" :key="point.id">
-            {{ formatTime(point.timeInSeconds) }} - {{ point.ringCount }}次響鈴
+            {{ formatTime(point.timeInSeconds) }} - {{ point.ringCount }}{{ t('alarm.ringsCount') }}
           </li>
         </ul>
         <button 
@@ -20,7 +20,7 @@
           @click.stop="$emit('delete', preset.id)"
           class="btn-delete"
         >
-          刪除
+          {{ t('alarm.delete') }}
         </button>
       </div>
       <div 
@@ -28,7 +28,7 @@
         @click="$emit('addCustom')"
       >
         <span class="plus-icon">+</span>
-        <p>新增自訂模板</p>
+        <p>{{ t('alarm.addCustomTemplate') }}</p>
       </div>
     </div>
   </div>
@@ -36,7 +36,10 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import type { Preset } from '../types';
+
+const { t } = useI18n();
 
 const props = defineProps<{
   customPresets: Preset[];
@@ -49,10 +52,10 @@ defineEmits<{
 }>();
 
 // 內建預設模板
-const builtInPresets: Preset[] = [
+const builtInPresets = computed<Preset[]>(() => [
   {
     id: 'speech-15',
-    name: '演講模式 (15分鐘)',
+    name: t('preset.speech15'),
     totalTime: 15 * 60,
     timePoints: [
       { id: 's15-1', timeInSeconds: 10 * 60, ringCount: 1, triggered: false },
@@ -62,7 +65,7 @@ const builtInPresets: Preset[] = [
   },
   {
     id: 'presentation-10',
-    name: '簡報模式 (10分鐘)',
+    name: t('preset.presentation10'),
     totalTime: 10 * 60,
     timePoints: [
       { id: 'p10-1', timeInSeconds: 8 * 60, ringCount: 1, triggered: false },
@@ -70,9 +73,9 @@ const builtInPresets: Preset[] = [
       { id: 'p10-3', timeInSeconds: 10 * 60, ringCount: 3, triggered: false },
     ],
   },
-];
+]);
 
-const allPresets = computed(() => [...builtInPresets, ...props.customPresets]);
+const allPresets = computed(() => [...builtInPresets.value, ...props.customPresets]);
 
 function formatTime(seconds: number): string {
   const mins = Math.floor(seconds / 60);

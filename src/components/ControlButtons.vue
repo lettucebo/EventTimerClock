@@ -5,32 +5,35 @@
       @click="$emit('start')" 
       class="btn btn-start"
     >
-      開始
+      {{ t('control.start') }}
     </button>
     <button 
       v-if="isRunning" 
       @click="$emit('pause')" 
       class="btn btn-pause"
     >
-      暫停
+      {{ t('control.pause') }}
     </button>
     <button 
       @click="$emit('reset')" 
       class="btn btn-reset"
     >
-      重置
+      {{ t('control.reset') }}
     </button>
     <button 
       @click="toggleFullscreen" 
       class="btn btn-fullscreen"
     >
-      {{ isFullscreen ? '退出全螢幕' : '全螢幕' }}
+      {{ isFullscreen ? t('control.exitFullscreen') : t('control.fullscreen') }}
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 defineProps<{
   isRunning: boolean;

@@ -1,8 +1,13 @@
 <template>
   <div class="app">
     <header class="app-header">
-      <h1>⏱️ Event Timer Clock</h1>
-      <p class="subtitle">活動倒數計時器</p>
+      <div class="header-content">
+        <div class="title-section">
+          <h1>⏱️ {{ t('app.title') }}</h1>
+          <p class="subtitle">{{ t('app.subtitle') }}</p>
+        </div>
+        <LanguageSwitcher />
+      </div>
     </header>
 
     <main class="app-main">
@@ -31,7 +36,7 @@
     </main>
 
     <footer class="app-footer">
-      <p>使用 Vue 3 + Vite + TypeScript 建立</p>
+      <p>{{ t('app.footer') }}</p>
     </footer>
 
     <ToastNotification />
@@ -39,6 +44,7 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import type { Preset } from './types';
 import { useStopwatch } from './composables/useStopwatch';
 import { useAlarm } from './composables/useAlarm';
@@ -47,6 +53,9 @@ import StopwatchDisplay from './components/StopwatchDisplay.vue';
 import ControlButtons from './components/ControlButtons.vue';
 import AlarmSettings from './components/AlarmSettings.vue';
 import ToastNotification from './components/ToastNotification.vue';
+import LanguageSwitcher from './components/LanguageSwitcher.vue';
+
+const { t } = useI18n();
 
 // 碼錶邏輯
 const { 
@@ -88,8 +97,19 @@ const {
 }
 
 .app-header {
-  text-align: center;
   margin-bottom: 2rem;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.title-section {
+  text-align: center;
+  flex: 1;
 }
 
 .app-header h1 {
@@ -126,6 +146,15 @@ const {
   
   .app-header {
     margin-bottom: 1rem;
+  }
+  
+  .header-content {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .title-section {
+    width: 100%;
   }
 }
 </style>
