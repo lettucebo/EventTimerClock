@@ -56,8 +56,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import type { TimePoint, Preset } from '../types';
+import { useToast } from '../composables/useToast';
 import PresetTemplates from './PresetTemplates.vue';
 import TimePointEditor from './TimePointEditor.vue';
+
+const { showToast } = useToast();
 
 const props = defineProps<{
   timePoints: TimePoint[];
@@ -105,12 +108,12 @@ function clearAll() {
 
 function saveAsTemplate() {
   if (!customName.value.trim()) {
-    alert('請輸入模板名稱');
+    showToast('請輸入模板名稱', 'error');
     return;
   }
   
   if (props.timePoints.length === 0) {
-    alert('請先新增時間點');
+    showToast('請先新增時間點', 'error');
     return;
   }
 
@@ -124,7 +127,7 @@ function saveAsTemplate() {
 
   emit('saveCustomPreset', preset);
   customName.value = '';
-  alert('模板已儲存！');
+  showToast('模板已儲存！', 'success');
 }
 </script>
 

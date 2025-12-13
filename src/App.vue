@@ -33,6 +33,8 @@
     <footer class="app-footer">
       <p>使用 Vue 3 + Vite + TypeScript 建立</p>
     </footer>
+
+    <ToastNotification />
   </div>
 </template>
 
@@ -44,6 +46,7 @@ import { useStorage } from './composables/useStorage';
 import StopwatchDisplay from './components/StopwatchDisplay.vue';
 import ControlButtons from './components/ControlButtons.vue';
 import AlarmSettings from './components/AlarmSettings.vue';
+import ToastNotification from './components/ToastNotification.vue';
 
 // 碼錶邏輯
 const { 
