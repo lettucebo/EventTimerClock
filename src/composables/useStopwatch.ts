@@ -3,8 +3,8 @@ import { ref, computed } from 'vue';
 export function useStopwatch() {
   const isRunning = ref(false);
   const elapsedTime = ref(0); // 毫秒
-  let startTime = 0;
-  let animationFrameId: number | null = null;
+  const startTime = ref(0);
+  const animationFrameId = ref<number | null>(null);
 
   const formattedTime = computed(() => {
     const totalSeconds = Math.floor(elapsedTime.value / 1000);
@@ -22,24 +22,24 @@ export function useStopwatch() {
 
   function update() {
     if (isRunning.value) {
-      elapsedTime.value = Date.now() - startTime;
-      animationFrameId = requestAnimationFrame(update);
+      elapsedTime.value = Date.now() - startTime.value;
+      animationFrameId.value = requestAnimationFrame(update);
     }
   }
 
   function start() {
     if (!isRunning.value) {
       isRunning.value = true;
-      startTime = Date.now() - elapsedTime.value;
-      animationFrameId = requestAnimationFrame(update);
+      startTime.value = Date.now() - elapsedTime.value;
+      animationFrameId.value = requestAnimationFrame(update);
     }
   }
 
   function pause() {
     isRunning.value = false;
-    if (animationFrameId !== null) {
-      cancelAnimationFrame(animationFrameId);
-      animationFrameId = null;
+    if (animationFrameId.value !== null) {
+      cancelAnimationFrame(animationFrameId.value);
+      animationFrameId.value = null;
     }
   }
 

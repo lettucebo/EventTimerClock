@@ -8,13 +8,13 @@ export function useAlarm(currentSeconds: () => number) {
 
   watch(
     () => currentSeconds(),
-    (seconds) => {
-      timePoints.value.forEach(async (point) => {
+    async (seconds) => {
+      for (const point of timePoints.value) {
         if (!point.triggered && seconds >= point.timeInSeconds) {
           point.triggered = true;
           await triggerAlarm(point.ringCount);
         }
-      });
+      }
     }
   );
 

@@ -1,9 +1,19 @@
 // Web Audio API 實作響鈴音效
 let audioContext: AudioContext | null = null;
 
+// Type extension for webkit prefix
+interface WindowWithWebkit extends Window {
+  webkitAudioContext?: typeof AudioContext;
+}
+
 function getAudioContext(): AudioContext {
   if (!audioContext) {
-    audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const AudioContextClass = window.AudioContext || (window as WindowWithWebkit).webkitAudioContext;
+    if (AudioContextClass) {
+      audioContext = new AudioContextClass();
+    } else {
+      throw new Error('Web Audio API is not supported in this browser');
+    }
   }
   return audioContext;
 }

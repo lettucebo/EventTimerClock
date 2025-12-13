@@ -27,8 +27,8 @@
         <input 
           v-model.number="ringCount" 
           type="number" 
-          min="1" 
-          max="5"
+          :min="MIN_RING_COUNT" 
+          :max="MAX_RING_COUNT"
         />
       </div>
       <button @click="addPoint" class="btn btn-add">新增</button>
@@ -52,6 +52,10 @@
 import { ref, computed } from 'vue';
 import type { TimePoint } from '../types';
 
+// Constants
+const MIN_RING_COUNT = 1;
+const MAX_RING_COUNT = 5;
+
 const props = defineProps<{
   timePoints: TimePoint[];
 }>();
@@ -63,7 +67,7 @@ const emit = defineEmits<{
 
 const minutes = ref(1);
 const seconds = ref(0);
-const ringCount = ref(1);
+const ringCount = ref(MIN_RING_COUNT);
 
 const sortedPoints = computed(() => {
   return [...props.timePoints].sort((a, b) => a.timeInSeconds - b.timeInSeconds);
@@ -71,12 +75,12 @@ const sortedPoints = computed(() => {
 
 function addPoint() {
   const totalSeconds = (minutes.value || 0) * 60 + (seconds.value || 0);
-  if (totalSeconds > 0 && ringCount.value >= 1 && ringCount.value <= 5) {
+  if (totalSeconds > 0 && ringCount.value >= MIN_RING_COUNT && ringCount.value <= MAX_RING_COUNT) {
     emit('add', totalSeconds, ringCount.value);
     // 重置表單
     minutes.value = 1;
     seconds.value = 0;
-    ringCount.value = 1;
+    ringCount.value = MIN_RING_COUNT;
   }
 }
 
