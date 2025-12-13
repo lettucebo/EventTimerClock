@@ -12,7 +12,7 @@ function getAudioContext(): AudioContext {
     if (AudioContextClass) {
       audioContext = new AudioContextClass();
     } else {
-      throw new Error('Web Audio API is not supported in this browser');
+      throw new Error('Web Audio API is not supported in your browser. Please use a modern browser like Chrome, Firefox, or Safari to enable alarm sounds.');
     }
   }
   return audioContext;
