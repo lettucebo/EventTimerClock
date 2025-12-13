@@ -1,7 +1,7 @@
 # Event Timer Clock ⏱️
 
-[![CI Build](https://github.com/lettucebo/EventTimetClock/actions/workflows/ci.yml/badge.svg)](https://github.com/lettucebo/EventTimetClock/actions/workflows/ci.yml)
-[![Deploy](https://github.com/lettucebo/EventTimetClock/actions/workflows/deploy.yml/badge.svg)](https://github.com/lettucebo/EventTimetClock/actions/workflows/deploy.yml)
+[![CI Build](https://github.com/lettucebo/EventTimerClock/actions/workflows/ci.yml/badge.svg)](https://github.com/lettucebo/EventTimerClock/actions/workflows/ci.yml)
+[![Deploy](https://github.com/lettucebo/EventTimerClock/actions/workflows/deploy.yml/badge.svg)](https://github.com/lettucebo/EventTimerClock/actions/workflows/deploy.yml)
 
 A stopwatch-style event timer application built with Vue 3, Vite, and TypeScript. Perfect for presentations, speeches, and events with customizable time-based alarms.
 
