@@ -4,7 +4,7 @@ on:
   push:
     tags:
       - '*'  # Trigger condition: when any tag is pushed
-  workflow_dispatch:  # 保留手動觸發選項
+  workflow_dispatch:  # Retain manual trigger option
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
