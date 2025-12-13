@@ -5,7 +5,7 @@
 
 A stopwatch-style event timer application built with Vue 3, Vite, and TypeScript. Perfect for presentations, speeches, and events with customizable time-based alarms.
 
-![Event Timer Clock Screenshot](https://github.com/user-attachments/assets/4bf1fca2-156e-4087-8e38-1d8e32fdfb2e)
+![Event Timer Clock Screenshot](docs/screenshots/app-screenshot.png)
 
 ## ✨ Features
 
