@@ -55,13 +55,15 @@ export function createTheme(): ThemeState {
   // Detect system theme preference
   const detectSystemTheme = () => {
     if (window.matchMedia) {
-      mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
-      systemPrefersDark.value = mediaQueryList.matches;
-
-      // Remove old listener if exists
+      // Clean up existing listener if present
       if (mediaQueryListener && mediaQueryList) {
         mediaQueryList.removeEventListener('change', mediaQueryListener);
+        mediaQueryListener = null;
       }
+
+      // Create new MediaQueryList
+      mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
+      systemPrefersDark.value = mediaQueryList.matches;
 
       // Create new listener
       mediaQueryListener = (e: MediaQueryListEvent) => {
