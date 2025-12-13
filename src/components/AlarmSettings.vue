@@ -1,21 +1,21 @@
 <template>
   <div class="alarm-settings">
     <div class="settings-header">
-      <h2>響鈴設定</h2>
+      <h2>{{ t('alarm.settings') }}</h2>
       <div class="mode-toggle">
         <button 
           @click="mode = 'preset'" 
           :class="{ active: mode === 'preset' }"
           class="toggle-btn"
         >
-          預設模板
+          {{ t('alarm.presetMode') }}
         </button>
         <button 
           @click="mode = 'custom'" 
           :class="{ active: mode === 'custom' }"
           class="toggle-btn"
         >
-          自訂設定
+          {{ t('alarm.customMode') }}
         </button>
       </div>
     </div>
@@ -39,14 +39,14 @@
         <input 
           v-model="customName" 
           type="text" 
-          placeholder="模板名稱"
+          :placeholder="t('alarm.templateName')"
           class="custom-name-input"
         />
         <button @click="saveAsTemplate" class="btn btn-save">
-          儲存為模板
+          {{ t('alarm.saveAsTemplate') }}
         </button>
         <button @click="clearAll" class="btn btn-clear">
-          清除全部
+          {{ t('alarm.clearAll') }}
         </button>
       </div>
     </div>
@@ -55,11 +55,13 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import type { TimePoint, Preset } from '../types';
 import { useToast } from '../composables/useToast';
 import PresetTemplates from './PresetTemplates.vue';
 import TimePointEditor from './TimePointEditor.vue';
 
+const { t } = useI18n();
 const { showToast } = useToast();
 
 const props = defineProps<{
@@ -108,12 +110,12 @@ function clearAll() {
 
 function saveAsTemplate() {
   if (!customName.value.trim()) {
-    showToast('請輸入模板名稱', 'error');
+    showToast(t('toast.enterTemplateName'), 'error');
     return;
   }
   
   if (props.timePoints.length === 0) {
-    showToast('請先新增時間點', 'error');
+    showToast(t('toast.addTimePointFirst'), 'error');
     return;
   }
 
@@ -122,7 +124,7 @@ function saveAsTemplate() {
     .filter(t => Number.isFinite(t) && t > 0);
   
   if (validTimes.length === 0) {
-    showToast('沒有有效的時間點', 'error');
+    showToast(t('toast.noValidTimePoints'), 'error');
     return;
   }
   
@@ -136,7 +138,7 @@ function saveAsTemplate() {
 
   emit('saveCustomPreset', preset);
   customName.value = '';
-  showToast('模板已儲存！', 'success');
+  showToast(t('toast.templateSaved'), 'success');
 }
 </script>
 

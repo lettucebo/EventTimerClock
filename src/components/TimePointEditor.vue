@@ -1,16 +1,16 @@
 <template>
   <div class="time-point-editor">
-    <h3>新增時間點</h3>
+    <h3>{{ t('alarm.addTimePoint') }}</h3>
     <div class="editor-form">
       <div class="form-group">
-        <label>時間 (分:秒)</label>
+        <label>{{ t('alarm.timeLabel') }}</label>
         <div class="time-input">
           <input 
             v-model.number="minutes" 
             type="number" 
             min="0" 
             max="999"
-            placeholder="分"
+            :placeholder="t('alarm.minutesPlaceholder')"
           />
           <span>:</span>
           <input 
@@ -18,12 +18,12 @@
             type="number" 
             min="0" 
             max="59"
-            placeholder="秒"
+            :placeholder="t('alarm.secondsPlaceholder')"
           />
         </div>
       </div>
       <div class="form-group">
-        <label>響鈴次數</label>
+        <label>{{ t('alarm.ringCountLabel') }}</label>
         <input 
           v-model.number="ringCount" 
           type="number" 
@@ -31,17 +31,17 @@
           :max="MAX_RING_COUNT"
         />
       </div>
-      <button @click="addPoint" class="btn btn-add">新增</button>
+      <button @click="addPoint" class="btn btn-add">{{ t('alarm.add') }}</button>
     </div>
     
     <div v-if="timePoints.length > 0" class="points-list">
-      <h3>已設定的時間點</h3>
+      <h3>{{ t('alarm.settedTimePoints') }}</h3>
       <ul>
         <li v-for="point in sortedPoints" :key="point.id" class="point-item">
           <span class="point-time">{{ formatTime(point.timeInSeconds) }}</span>
-          <span class="point-rings">{{ point.ringCount }}次響鈴</span>
-          <span v-if="point.triggered" class="point-status">已觸發</span>
-          <button @click="$emit('remove', point.id)" class="btn-remove">移除</button>
+          <span class="point-rings">{{ point.ringCount }}{{ t('alarm.ringsCount') }}</span>
+          <span v-if="point.triggered" class="point-status">{{ t('alarm.triggered') }}</span>
+          <button @click="$emit('remove', point.id)" class="btn-remove">{{ t('alarm.remove') }}</button>
         </li>
       </ul>
     </div>
@@ -50,6 +50,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import type { TimePoint } from '../types';
 import { useToast } from '../composables/useToast';
 
@@ -57,6 +58,7 @@ import { useToast } from '../composables/useToast';
 const MIN_RING_COUNT = 1;
 const MAX_RING_COUNT = 5;
 
+const { t } = useI18n();
 const { showToast } = useToast();
 
 const props = defineProps<{
@@ -80,12 +82,12 @@ function addPoint() {
   const totalSeconds = (minutes.value || 0) * 60 + (seconds.value || 0);
   
   if (totalSeconds <= 0) {
-    showToast('時間必須大於 0 秒', 'error');
+    showToast(t('toast.timeGreaterThanZero'), 'error');
     return;
   }
   
   if (ringCount.value < MIN_RING_COUNT || ringCount.value > MAX_RING_COUNT) {
-    showToast(`響鈴次數必須介於 ${MIN_RING_COUNT} 到 ${MAX_RING_COUNT} 之間`, 'error');
+    showToast(t('toast.ringCountRange', { min: MIN_RING_COUNT, max: MAX_RING_COUNT }), 'error');
     return;
   }
   
