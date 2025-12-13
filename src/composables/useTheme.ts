@@ -30,7 +30,7 @@ export function createTheme(): ThemeState {
     return currentTheme.value;
   };
 
-  // 載入儲存的主題偏好
+  // Load stored theme preference
   const loadTheme = () => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
@@ -43,7 +43,7 @@ export function createTheme(): ThemeState {
     }
   };
 
-  // 儲存主題偏好
+  // Save theme preference
   const saveTheme = (theme: Theme) => {
     try {
       localStorage.setItem(STORAGE_KEY, theme);
@@ -74,7 +74,7 @@ export function createTheme(): ThemeState {
     }
   };
 
-  // 應用主題到 DOM
+  // Apply theme to DOM
   const applyTheme = () => {
     const effectiveTheme = getEffectiveTheme();
     const root = document.documentElement;
@@ -88,21 +88,21 @@ export function createTheme(): ThemeState {
     }
   };
 
-  // 設定主題
+  // Set theme
   const setTheme = (theme: Theme) => {
     currentTheme.value = theme;
     saveTheme(theme);
     applyTheme();
   };
 
-  // 切換主題（在 light 和 dark 之間切換）
+  // Toggle theme (between light and dark)
   const toggleTheme = () => {
     const effectiveTheme = getEffectiveTheme();
     const newTheme = effectiveTheme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
   };
 
-  // 初始化
+  // Initialize
   const initTheme = () => {
     loadTheme();
     detectSystemTheme();

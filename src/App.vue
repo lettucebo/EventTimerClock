@@ -63,7 +63,7 @@ import ThemeSwitcher from './components/ThemeSwitcher.vue';
 
 const { t } = useI18n();
 
-// 初始化主題
+// Initialize theme
 const theme = provideTheme();
 onMounted(() => {
   theme.initTheme();
@@ -73,7 +73,7 @@ onUnmounted(() => {
   theme.cleanup();
 });
 
-// 碼錶邏輯
+// Stopwatch logic
 const { 
   isRunning, 
   formattedTime, 
@@ -83,7 +83,7 @@ const {
   reset 
 } = useStopwatch();
 
-// 響鈴邏輯
+// Alarm logic
 const { 
   timePoints, 
   isFlashing,
@@ -94,14 +94,12 @@ const {
   setTimePoints,
 } = useAlarm(() => currentSeconds.value);
 
-// 儲存邏輯
+// Storage logic
 const {
   customPresets,
   addCustomPreset,
   removeCustomPreset,
 } = useStorage();
-
-// No wrapper functions needed - using composable functions directly
 </script>
 
 <style scoped>
