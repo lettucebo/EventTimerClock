@@ -60,8 +60,8 @@ Built-in templates:
 
 ```bash
 # Clone the repository
-git clone https://github.com/lettucebo/EventTimetClock.git
-cd EventTimetClock
+git clone https://github.com/lettucebo/EventTimerClock.git
+cd EventTimerClock
 
 # Install dependencies
 npm install
