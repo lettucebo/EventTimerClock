@@ -1,1 +1,179 @@
-# Event Timer Clock
+# Event Timer Clock ⏱️
+
+A stopwatch-style event timer application built with Vue 3, Vite, and TypeScript. Perfect for presentations, speeches, and events with customizable time-based alarms.
+
+![Event Timer Clock Screenshot](https://github.com/user-attachments/assets/4bf1fca2-156e-4087-8e38-1d8e32fdfb2e)
+
+## ✨ Features
+
+### 📊 Stopwatch Timer
+- Forward counting from 00:00:00
+- Large display suitable for projection
+- Format: `HH:MM:SS` or `MM:SS`
+- Real-time updates using requestAnimationFrame
+
+### 🎮 Control Functions
+- **Start** - Begin timing
+- **Pause** - Pause timing
+- **Reset** - Reset timer to zero
+- **Fullscreen** - Toggle fullscreen mode
+
+### 🔔 Time-based Alarms
+- Set multiple alarm points
+- Configure 1-5 beeps per alarm
+- Web Audio API sound implementation
+- Visual flash effects on alarm trigger
+
+### 📋 Preset Templates
+Built-in templates:
+- **Speech Mode (15 minutes)**
+  - 10:00 - 1 beep (5 min remaining)
+  - 14:00 - 2 beeps (1 min remaining)
+  - 15:00 - 3 beeps (time's up)
+- **Presentation Mode (10 minutes)**
+  - 8:00 - 1 beep
+  - 9:00 - 2 beeps
+  - 10:00 - 3 beeps
+
+### 🛠️ Custom Settings
+- Add/edit/delete time points
+- Set beep count for each point
+- Save custom templates to localStorage
+- Persistent across sessions
+
+### 🎨 Interface Design
+- Responsive design (mobile & desktop)
+- Dark mode optimized for projection
+- Clean and intuitive UI
+- Fullscreen support
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/lettucebo/EventTimetClock.git
+cd EventTimetClock
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+Visit `http://localhost:5173/` in your browser.
+
+### Build for Production
+
+```bash
+# Build the application
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+## 📖 Usage Guide
+
+### Using Preset Templates
+1. Select a preset template from the "預設模板" section
+2. Click on a template card to load its time points
+3. Click "開始" to start the timer
+
+### Creating Custom Alarms
+1. Switch to "自訂設定" mode
+2. Enter time in minutes and seconds
+3. Set the number of beeps (1-5)
+4. Click "新增" to add the time point
+5. Add a template name and click "儲存為模板" to save
+
+### Controlling the Timer
+- **開始 (Start)**: Begin timing from current position
+- **暫停 (Pause)**: Pause the timer
+- **重置 (Reset)**: Reset to 00:00 and clear all triggered alarms
+- **全螢幕 (Fullscreen)**: Toggle fullscreen mode
+
+## 🏗️ Project Structure
+
+```
+src/
+├── components/
+│   ├── StopwatchDisplay.vue    # Time display component
+│   ├── ControlButtons.vue      # Control buttons
+│   ├── AlarmSettings.vue       # Alarm settings container
+│   ├── PresetTemplates.vue     # Preset template selector
+│   └── TimePointEditor.vue     # Time point editor
+├── composables/
+│   ├── useStopwatch.ts         # Stopwatch logic
+│   ├── useAlarm.ts             # Alarm logic
+│   └── useStorage.ts           # localStorage logic
+├── types/
+│   └── index.ts                # TypeScript type definitions
+├── utils/
+│   └── audio.ts                # Web Audio API utilities
+├── App.vue                     # Main application
+├── main.ts                     # Application entry
+└── style.css                   # Global styles
+```
+
+## 🛠️ Technology Stack
+
+- **Framework**: Vue 3 (Composition API + `<script setup>`)
+- **Build Tool**: Vite
+- **Language**: TypeScript
+- **Styling**: CSS (with CSS Variables)
+- **State Management**: Vue reactive/ref
+- **Audio**: Web Audio API
+
+## 📝 Type Definitions
+
+```typescript
+interface TimePoint {
+  id: string;
+  timeInSeconds: number;  // Trigger time in seconds
+  ringCount: number;      // Number of beeps (1-5)
+  triggered: boolean;     // Whether triggered
+}
+
+interface Preset {
+  id: string;
+  name: string;
+  totalTime: number;      // Total time in seconds
+  timePoints: TimePoint[];
+}
+
+interface StopwatchState {
+  isRunning: boolean;
+  elapsedTime: number;    // Elapsed time in milliseconds
+  currentPreset: Preset | null;
+}
+```
+
+## ✅ Acceptance Criteria
+
+- ✅ Project starts with `npm install` and `npm run dev`
+- ✅ Stopwatch can start, pause, resume, and reset
+- ✅ Alarms trigger at specified times
+- ✅ Correct number of beeps per alarm
+- ✅ Preset templates and custom mode available
+- ✅ Settings persist to localStorage
+- ✅ Responsive on mobile and desktop
+- ✅ Fullscreen mode supported
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📄 License
+
+This project is open source and available under the MIT License.
+
+## 👤 Author
+
+Created with ❤️ for event organizers and speakers everywhere.

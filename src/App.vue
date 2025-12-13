@@ -37,7 +37,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
 import type { Preset } from './types';
 import { useStopwatch } from './composables/useStopwatch';
 import { useAlarm } from './composables/useAlarm';
