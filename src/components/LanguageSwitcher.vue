@@ -14,18 +14,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { SupportedLocale } from '../i18n'
 import { saveLocale } from '../i18n'
 
 const { locale, t } = useI18n()
 const currentLocale = ref<SupportedLocale>(locale.value as SupportedLocale)
-
-// 監聽 locale 變化，同步更新 currentLocale
-watch(locale, (newLocale) => {
-  currentLocale.value = newLocale as SupportedLocale
-})
 
 function changeLocale() {
   locale.value = currentLocale.value

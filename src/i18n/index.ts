@@ -3,27 +3,24 @@ import zhTW from './locales/zh-TW'
 import en from './locales/en'
 
 // 支援的語言列表
-export const SUPPORTED_LOCALES = {
-  'zh-TW': 'zhTW',
-  'en': 'en'
-} as const
+export const SUPPORTED_LOCALES = ['zh-TW', 'en'] as const
 
-export type SupportedLocale = keyof typeof SUPPORTED_LOCALES
+export type SupportedLocale = typeof SUPPORTED_LOCALES[number]
 
 // 從瀏覽器取得語言，fallback 到繁體中文
 function getBrowserLocale(): SupportedLocale {
   const browserLang = navigator.language
   
   // 完全匹配
-  if (browserLang in SUPPORTED_LOCALES) {
+  if (SUPPORTED_LOCALES.includes(browserLang as SupportedLocale)) {
     return browserLang as SupportedLocale
   }
   
   // 語言碼匹配 (例如: zh-CN, zh-HK -> zh-TW)
   const langCode = browserLang.split('-')[0]
-  for (const locale of Object.keys(SUPPORTED_LOCALES)) {
+  for (const locale of SUPPORTED_LOCALES) {
     if (locale.split('-')[0] === langCode) {
-      return locale as SupportedLocale
+      return locale
     }
   }
   
@@ -34,7 +31,7 @@ function getBrowserLocale(): SupportedLocale {
 // 從 localStorage 取得使用者選擇的語言，或使用瀏覽器語言
 function getInitialLocale(): SupportedLocale {
   const stored = localStorage.getItem('user-locale')
-  if (stored && stored in SUPPORTED_LOCALES) {
+  if (stored && SUPPORTED_LOCALES.includes(stored as SupportedLocale)) {
     return stored as SupportedLocale
   }
   return getBrowserLocale()
