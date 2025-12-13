@@ -3,8 +3,7 @@
     <label for="theme-select">{{ t('theme.label') }}:</label>
     <select 
       id="theme-select"
-      v-model="currentTheme" 
-      @change="changeTheme"
+      v-model="currentTheme"
       class="theme-select"
     >
       <option value="light">{{ t('theme.light') }}</option>
@@ -15,23 +14,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { getThemeInstance } from '../composables/useTheme'
-import type { Theme } from '../composables/useTheme'
+import { useTheme } from '../composables/useTheme'
 
 const { t } = useI18n()
-const themeInstance = getThemeInstance()
-const currentTheme = ref<Theme>(themeInstance.currentTheme.value)
+const theme = useTheme()
 
-// 同步主題變化
-watch(() => themeInstance.currentTheme.value, (newTheme) => {
-  currentTheme.value = newTheme
+const currentTheme = computed({
+  get: () => theme.currentTheme.value,
+  set: (value) => theme.setTheme(value)
 })
-
-function changeTheme() {
-  themeInstance.setTheme(currentTheme.value)
-}
 </script>
 
 <style scoped>

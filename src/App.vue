@@ -53,7 +53,7 @@ import type { Preset } from './types';
 import { useStopwatch } from './composables/useStopwatch';
 import { useAlarm } from './composables/useAlarm';
 import { useStorage } from './composables/useStorage';
-import { getThemeInstance } from './composables/useTheme';
+import { provideTheme } from './composables/useTheme';
 import StopwatchDisplay from './components/StopwatchDisplay.vue';
 import ControlButtons from './components/ControlButtons.vue';
 import AlarmSettings from './components/AlarmSettings.vue';
@@ -64,9 +64,9 @@ import ThemeSwitcher from './components/ThemeSwitcher.vue';
 const { t } = useI18n();
 
 // 初始化主題
-const themeInstance = getThemeInstance();
+const theme = provideTheme();
 onMounted(() => {
-  themeInstance.initTheme();
+  theme.initTheme();
 });
 
 // 碼錶邏輯

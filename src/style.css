@@ -29,12 +29,12 @@
   --text-primary: #1a1a2e;
   --text-secondary: #333333;
   --text-tertiary: #666666;
-  --border-color: rgba(0, 200, 100, 0.4);
-  --border-hover: #00cc66;
+  --border-color: rgba(0, 255, 136, 0.4);
+  --border-hover: #00dd77;
   --shadow-color: rgba(0, 0, 0, 0.15);
   --scrollbar-bg: rgba(0, 0, 0, 0.1);
-  --scrollbar-thumb: rgba(0, 200, 100, 0.4);
-  --scrollbar-thumb-hover: rgba(0, 200, 100, 0.6);
+  --scrollbar-thumb: rgba(0, 255, 136, 0.4);
+  --scrollbar-thumb-hover: rgba(0, 255, 136, 0.6);
 }
 
 * {

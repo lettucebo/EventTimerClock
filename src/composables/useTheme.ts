@@ -1,12 +1,23 @@
-import { ref, watch } from 'vue';
+import { ref, watch, inject, provide } from 'vue';
+import type { InjectionKey, Ref } from 'vue';
 
 export type Theme = 'light' | 'dark' | 'auto';
 
 const STORAGE_KEY = 'user-theme';
-const currentTheme = ref<Theme>('auto');
-const systemPrefersDark = ref(false);
 
-export function useTheme() {
+export interface ThemeState {
+  currentTheme: Ref<Theme>;
+  effectiveTheme: () => 'light' | 'dark';
+  setTheme: (theme: Theme) => void;
+  toggleTheme: () => void;
+  initTheme: () => void;
+}
+
+export const ThemeKey: InjectionKey<ThemeState> = Symbol('theme');
+
+export function createTheme(): ThemeState {
+  const currentTheme = ref<Theme>('auto');
+  const systemPrefersDark = ref(false);
   // 獲取實際應用的主題（考慮 auto 模式）
   const getEffectiveTheme = (): 'light' | 'dark' => {
     if (currentTheme.value === 'auto') {
@@ -19,7 +30,8 @@ export function useTheme() {
   const loadTheme = () => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored && (stored === 'light' || stored === 'dark' || stored === 'auto')) {
+      const validThemes: Theme[] = ['light', 'dark', 'auto'];
+      if (stored && validThemes.includes(stored as Theme)) {
         currentTheme.value = stored as Theme;
       }
     } catch (error) {
@@ -85,11 +97,6 @@ export function useTheme() {
     applyTheme();
   };
 
-  // 監聽主題變化
-  watch(currentTheme, () => {
-    applyTheme();
-  });
-
   // 監聽系統主題變化（當使用 auto 模式時）
   watch(systemPrefersDark, () => {
     if (currentTheme.value === 'auto') {
@@ -106,12 +113,16 @@ export function useTheme() {
   };
 }
 
-// 單例模式：確保所有組件共享同一個主題狀態
-let themeInstance: ReturnType<typeof useTheme> | null = null;
+export function provideTheme() {
+  const theme = createTheme();
+  provide(ThemeKey, theme);
+  return theme;
+}
 
-export function getThemeInstance() {
-  if (!themeInstance) {
-    themeInstance = useTheme();
+export function useTheme(): ThemeState {
+  const theme = inject(ThemeKey);
+  if (!theme) {
+    throw new Error('useTheme must be used within a component that has called provideTheme');
   }
-  return themeInstance;
+  return theme;
 }
