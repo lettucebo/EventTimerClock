@@ -29,7 +29,7 @@ export default {
     secondsPlaceholder: 'Sec',
     ringCountLabel: 'Ring Count',
     add: 'Add',
-    settedTimePoints: 'Set Time Points',
+    settedTimePoints: 'Configured Time Points',
     triggered: 'Triggered',
     remove: 'Remove'
   },
