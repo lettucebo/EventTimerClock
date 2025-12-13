@@ -14,17 +14,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useTheme } from '../composables/useTheme'
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useTheme } from '../composables/useTheme';
 
-const { t } = useI18n()
-const theme = useTheme()
+const { t } = useI18n();
+const theme = useTheme();
 
 const currentTheme = computed({
   get: () => theme.currentTheme.value,
   set: (value) => theme.setTheme(value)
-})
+});
 </script>
 
 <style scoped>

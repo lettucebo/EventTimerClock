@@ -19,7 +19,10 @@ export const ThemeKey: InjectionKey<ThemeState> = Symbol('theme');
 export function createTheme(): ThemeState {
   const currentTheme = ref<Theme>('auto');
   const systemPrefersDark = ref(false);
-  // 獲取實際應用的主題（考慮 auto 模式）
+  let mediaQueryListener: ((e: MediaQueryListEvent) => void) | null = null;
+  let mediaQueryList: MediaQueryList | null = null;
+
+  // Get the effective theme (considering auto mode)
   const getEffectiveTheme = (): 'light' | 'dark' => {
     if (currentTheme.value === 'auto') {
       return systemPrefersDark.value ? 'dark' : 'light';
@@ -49,27 +52,25 @@ export function createTheme(): ThemeState {
     }
   };
 
-  // 檢測系統主題偏好
-  let mediaQueryListener: ((e: MediaQueryListEvent) => void) | null = null;
-  
+  // Detect system theme preference
   const detectSystemTheme = () => {
     if (window.matchMedia) {
-      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-      systemPrefersDark.value = mediaQuery.matches;
+      mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
+      systemPrefersDark.value = mediaQueryList.matches;
 
-      // 移除舊的監聽器（如果存在）
-      if (mediaQueryListener) {
-        mediaQuery.removeEventListener('change', mediaQueryListener);
+      // Remove old listener if exists
+      if (mediaQueryListener && mediaQueryList) {
+        mediaQueryList.removeEventListener('change', mediaQueryListener);
       }
 
-      // 建立新的監聽器
+      // Create new listener
       mediaQueryListener = (e: MediaQueryListEvent) => {
         systemPrefersDark.value = e.matches;
         applyTheme();
       };
 
-      // 監聽系統主題變化
-      mediaQuery.addEventListener('change', mediaQueryListener);
+      // Listen to system theme changes
+      mediaQueryList.addEventListener('change', mediaQueryListener);
     }
   };
 
@@ -108,16 +109,16 @@ export function createTheme(): ThemeState {
     applyTheme();
   };
 
-  // 清理函式
+  // Cleanup function
   const cleanup = () => {
-    if (mediaQueryListener && window.matchMedia) {
-      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-      mediaQuery.removeEventListener('change', mediaQueryListener);
+    if (mediaQueryListener && mediaQueryList) {
+      mediaQueryList.removeEventListener('change', mediaQueryListener);
       mediaQueryListener = null;
+      mediaQueryList = null;
     }
   };
 
-  // 監聽系統主題變化（當使用 auto 模式時）
+  // Watch system theme changes (when using auto mode)
   watch(systemPrefersDark, () => {
     if (currentTheme.value === 'auto') {
       applyTheme();
