@@ -30,7 +30,6 @@ export function useStorage() {
   // 新增自訂預設
   function addCustomPreset(preset: Preset) {
     customPresets.value.push(preset);
-    saveCustomPresets();
   }
 
   // 刪除自訂預設
@@ -38,7 +37,6 @@ export function useStorage() {
     const index = customPresets.value.findIndex(p => p.id === id);
     if (index !== -1) {
       customPresets.value.splice(index, 1);
-      saveCustomPresets();
     }
   }
 
@@ -47,7 +45,6 @@ export function useStorage() {
     const index = customPresets.value.findIndex(p => p.id === preset.id);
     if (index !== -1) {
       customPresets.value[index] = preset;
-      saveCustomPresets();
     }
   }
 

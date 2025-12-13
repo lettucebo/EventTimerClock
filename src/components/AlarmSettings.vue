@@ -117,9 +117,18 @@ function saveAsTemplate() {
     return;
   }
 
-  const maxTime = Math.max(...props.timePoints.map(p => p.timeInSeconds));
+  const validTimes = props.timePoints
+    .map(p => p.timeInSeconds)
+    .filter(t => Number.isFinite(t) && t > 0);
+  
+  if (validTimes.length === 0) {
+    showToast('沒有有效的時間點', 'error');
+    return;
+  }
+  
+  const maxTime = Math.max(...validTimes);
   const preset: Preset = {
-    id: `custom-${Date.now()}`,
+    id: crypto.randomUUID(),
     name: customName.value,
     totalTime: maxTime,
     timePoints: props.timePoints.map(p => ({ ...p })),

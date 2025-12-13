@@ -51,10 +51,13 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import type { TimePoint } from '../types';
+import { useToast } from '../composables/useToast';
 
 // Constants
 const MIN_RING_COUNT = 1;
 const MAX_RING_COUNT = 5;
+
+const { showToast } = useToast();
 
 const props = defineProps<{
   timePoints: TimePoint[];
@@ -75,13 +78,22 @@ const sortedPoints = computed(() => {
 
 function addPoint() {
   const totalSeconds = (minutes.value || 0) * 60 + (seconds.value || 0);
-  if (totalSeconds > 0 && ringCount.value >= MIN_RING_COUNT && ringCount.value <= MAX_RING_COUNT) {
-    emit('add', totalSeconds, ringCount.value);
-    // 重置表單
-    minutes.value = 1;
-    seconds.value = 0;
-    ringCount.value = MIN_RING_COUNT;
+  
+  if (totalSeconds <= 0) {
+    showToast('時間必須大於 0 秒', 'error');
+    return;
   }
+  
+  if (ringCount.value < MIN_RING_COUNT || ringCount.value > MAX_RING_COUNT) {
+    showToast(`響鈴次數必須介於 ${MIN_RING_COUNT} 到 ${MAX_RING_COUNT} 之間`, 'error');
+    return;
+  }
+  
+  emit('add', totalSeconds, ringCount.value);
+  // 重置表單
+  minutes.value = 1;
+  seconds.value = 0;
+  ringCount.value = MIN_RING_COUNT;
 }
 
 function formatTime(seconds: number): string {

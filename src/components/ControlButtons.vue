@@ -46,13 +46,21 @@ const isFullscreen = ref(false);
 
 function toggleFullscreen() {
   if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen().then(() => {
-      isFullscreen.value = true;
-    });
+    document.documentElement.requestFullscreen()
+      .then(() => {
+        isFullscreen.value = true;
+      })
+      .catch((err) => {
+        console.error('Failed to enter fullscreen:', err);
+      });
   } else {
-    document.exitFullscreen().then(() => {
-      isFullscreen.value = false;
-    });
+    document.exitFullscreen()
+      .then(() => {
+        isFullscreen.value = false;
+      })
+      .catch((err) => {
+        console.error('Failed to exit fullscreen:', err);
+      });
   }
 }
 

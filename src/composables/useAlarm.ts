@@ -31,7 +31,7 @@ export function useAlarm(currentSeconds: () => number) {
 
   function addTimePoint(timeInSeconds: number, ringCount: number) {
     const newPoint: TimePoint = {
-      id: `${Date.now()}-${Math.random()}`,
+      id: crypto.randomUUID(),
       timeInSeconds,
       ringCount,
       triggered: false,
