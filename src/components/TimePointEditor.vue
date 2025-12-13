@@ -70,7 +70,7 @@ const emit = defineEmits<{
 
 const minutes = ref(1);
 const seconds = ref(0);
-const ringCount = ref(MIN_RING_COUNT);
+const ringCount = ref(2); // Default to mid-range value for better UX
 
 const sortedPoints = computed(() => {
   return [...props.timePoints].sort((a, b) => a.timeInSeconds - b.timeInSeconds);
@@ -93,7 +93,7 @@ function addPoint() {
   // 重置表單
   minutes.value = 1;
   seconds.value = 0;
-  ringCount.value = MIN_RING_COUNT;
+  ringCount.value = 2;
 }
 
 function formatTime(seconds: number): string {

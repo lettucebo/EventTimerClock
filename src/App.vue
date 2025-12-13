@@ -13,20 +13,20 @@
       
       <ControlButtons 
         :is-running="isRunning"
-        @start="handleStart"
-        @pause="handlePause"
-        @reset="handleReset"
+        @start="start"
+        @pause="pause"
+        @reset="() => { reset(); resetTriggers(); }"
       />
 
       <AlarmSettings 
         :time-points="timePoints"
         :custom-presets="customPresets"
-        @select-preset="handleSelectPreset"
-        @add-time-point="handleAddTimePoint"
-        @remove-time-point="handleRemoveTimePoint"
-        @clear-time-points="handleClearTimePoints"
-        @save-custom-preset="handleSaveCustomPreset"
-        @delete-custom-preset="handleDeleteCustomPreset"
+        @select-preset="(preset: Preset) => { clearTimePoints(); setTimePoints(preset.timePoints); }"
+        @add-time-point="addTimePoint"
+        @remove-time-point="removeTimePoint"
+        @clear-time-points="clearTimePoints"
+        @save-custom-preset="addCustomPreset"
+        @delete-custom-preset="removeCustomPreset"
       />
     </main>
 
@@ -76,47 +76,7 @@ const {
   removeCustomPreset,
 } = useStorage();
 
-// 控制按鈕處理
-function handleStart() {
-  start();
-}
-
-function handlePause() {
-  pause();
-}
-
-function handleReset() {
-  reset();
-  resetTriggers();
-}
-
-// 預設模板處理
-function handleSelectPreset(preset: Preset) {
-  clearTimePoints();
-  setTimePoints(preset.timePoints);
-}
-
-// 時間點處理
-function handleAddTimePoint(timeInSeconds: number, ringCount: number) {
-  addTimePoint(timeInSeconds, ringCount);
-}
-
-function handleRemoveTimePoint(id: string) {
-  removeTimePoint(id);
-}
-
-function handleClearTimePoints() {
-  clearTimePoints();
-}
-
-// 自訂模板處理
-function handleSaveCustomPreset(preset: Preset) {
-  addCustomPreset(preset);
-}
-
-function handleDeleteCustomPreset(id: string) {
-  removeCustomPreset(id);
-}
+// No wrapper functions needed - using composable functions directly
 </script>
 
 <style scoped>

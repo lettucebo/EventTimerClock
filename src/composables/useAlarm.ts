@@ -9,12 +9,16 @@ export function useAlarm(currentSeconds: () => number) {
   watch(
     () => currentSeconds(),
     async (seconds) => {
+      const updatedPoints = [];
       for (const point of timePoints.value) {
         if (!point.triggered && seconds >= point.timeInSeconds) {
-          point.triggered = true;
+          updatedPoints.push({ ...point, triggered: true });
           await triggerAlarm(point.ringCount);
+        } else {
+          updatedPoints.push(point);
         }
       }
+      timePoints.value = updatedPoints;
     }
   );
 
@@ -52,9 +56,10 @@ export function useAlarm(currentSeconds: () => number) {
   }
 
   function resetTriggers() {
-    timePoints.value.forEach(point => {
-      point.triggered = false;
-    });
+    timePoints.value = timePoints.value.map(point => ({
+      ...point,
+      triggered: false,
+    }));
   }
 
   function setTimePoints(points: TimePoint[]) {

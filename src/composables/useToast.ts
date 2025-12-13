@@ -6,6 +6,9 @@ export interface Toast {
   type: 'success' | 'error' | 'info';
 }
 
+// Module-level state creates a singleton pattern for global toast notifications
+// This is intentional - toasts should be shared across the entire application
+// All instances of useToast() will share the same toast queue
 const toasts = ref<Toast[]>([]);
 let toastId = 0;
 
