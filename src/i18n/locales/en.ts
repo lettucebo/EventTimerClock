@@ -49,5 +49,11 @@ export default {
     label: 'Language',
     zhTW: '繁體中文',
     en: 'English'
+  },
+  theme: {
+    label: 'Theme',
+    light: 'Light',
+    dark: 'Dark',
+    auto: 'Auto (System)'
   }
 }

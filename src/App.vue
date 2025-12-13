@@ -6,7 +6,10 @@
           <h1>⏱️ {{ t('app.title') }}</h1>
           <p class="subtitle">{{ t('app.subtitle') }}</p>
         </div>
-        <LanguageSwitcher />
+        <div class="header-controls">
+          <ThemeSwitcher />
+          <LanguageSwitcher />
+        </div>
       </div>
     </header>
 
@@ -44,18 +47,27 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { Preset } from './types';
 import { useStopwatch } from './composables/useStopwatch';
 import { useAlarm } from './composables/useAlarm';
 import { useStorage } from './composables/useStorage';
+import { getThemeInstance } from './composables/useTheme';
 import StopwatchDisplay from './components/StopwatchDisplay.vue';
 import ControlButtons from './components/ControlButtons.vue';
 import AlarmSettings from './components/AlarmSettings.vue';
 import ToastNotification from './components/ToastNotification.vue';
 import LanguageSwitcher from './components/LanguageSwitcher.vue';
+import ThemeSwitcher from './components/ThemeSwitcher.vue';
 
 const { t } = useI18n();
+
+// 初始化主題
+const themeInstance = getThemeInstance();
+onMounted(() => {
+  themeInstance.initTheme();
+});
 
 // 碼錶邏輯
 const { 
@@ -112,6 +124,12 @@ const {
   flex: 1;
 }
 
+.header-controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
 .app-header h1 {
   font-size: clamp(2rem, 5vw, 3rem);
   margin: 0;
@@ -121,7 +139,7 @@ const {
 
 .subtitle {
   font-size: 1.2rem;
-  color: #aaa;
+  color: var(--text-tertiary);
   margin: 0.5rem 0 0;
 }
 
@@ -135,7 +153,7 @@ const {
 .app-footer {
   text-align: center;
   padding: 2rem 0 0;
-  color: #666;
+  color: var(--text-tertiary);
   font-size: 0.9rem;
 }
 
@@ -154,6 +172,11 @@ const {
   }
   
   .title-section {
+    width: 100%;
+  }
+  
+  .header-controls {
+    flex-direction: column;
     width: 100%;
   }
 }

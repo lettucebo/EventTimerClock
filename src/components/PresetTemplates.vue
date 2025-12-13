@@ -92,7 +92,7 @@ function formatTime(seconds: number): string {
 h2 {
   font-size: 1.8rem;
   margin-bottom: 1rem;
-  color: #00ff88;
+  color: var(--primary-color);
 }
 
 .templates-grid {
@@ -102,8 +102,8 @@ h2 {
 }
 
 .template-card {
-  background: rgba(0, 0, 0, 0.3);
-  border: 2px solid rgba(0, 255, 136, 0.3);
+  background: var(--bg-card);
+  border: 2px solid var(--border-color);
   border-radius: 0.5rem;
   padding: 1.5rem;
   cursor: pointer;
@@ -112,19 +112,19 @@ h2 {
 }
 
 .template-card:hover {
-  border-color: #00ff88;
+  border-color: var(--border-hover);
   transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0, 255, 136, 0.3);
+  box-shadow: 0 4px 12px var(--primary-shadow-light);
 }
 
 .template-card h3 {
   font-size: 1.2rem;
   margin-bottom: 0.5rem;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .total-time {
-  color: #aaa;
+  color: var(--text-tertiary);
   font-size: 0.9rem;
   margin-bottom: 1rem;
 }
@@ -134,7 +134,7 @@ h2 {
   padding: 0;
   margin: 0;
   font-size: 0.9rem;
-  color: #ccc;
+  color: var(--text-secondary);
 }
 
 .time-points li {
@@ -152,12 +152,12 @@ h2 {
 
 .plus-icon {
   font-size: 3rem;
-  color: #00ff88;
+  color: var(--primary-color);
   margin-bottom: 0.5rem;
 }
 
 .add-custom p {
-  color: #00ff88;
+  color: var(--primary-color);
   font-size: 1rem;
 }
 

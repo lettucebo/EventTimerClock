@@ -37,29 +37,29 @@ function changeLocale() {
 }
 
 .language-switcher label {
-  color: #ccc;
+  color: var(--text-secondary);
   font-size: 0.9rem;
 }
 
 .language-select {
   padding: 0.4rem 0.8rem;
   font-size: 0.9rem;
-  border: 1px solid rgba(0, 255, 136, 0.3);
+  border: 1px solid var(--border-color);
   border-radius: 0.25rem;
-  background: rgba(0, 0, 0, 0.5);
-  color: #fff;
+  background: var(--bg-card);
+  color: var(--text-primary);
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .language-select:hover {
-  border-color: #00ff88;
+  border-color: var(--border-hover);
 }
 
 .language-select:focus {
   outline: none;
-  border-color: #00ff88;
-  box-shadow: 0 0 5px rgba(0, 255, 136, 0.3);
+  border-color: var(--border-hover);
+  box-shadow: 0 0 5px var(--primary-shadow-light);
 }
 
 @media (max-width: 768px) {

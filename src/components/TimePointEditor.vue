@@ -107,7 +107,7 @@ function formatTime(seconds: number): string {
 
 <style scoped>
 .time-point-editor {
-  background: rgba(0, 0, 0, 0.3);
+  background: var(--bg-card);
   border-radius: 0.5rem;
   padding: 1.5rem;
   margin-bottom: 2rem;
@@ -116,7 +116,7 @@ function formatTime(seconds: number): string {
 h3 {
   font-size: 1.3rem;
   margin-bottom: 1rem;
-  color: #00ff88;
+  color: var(--primary-color);
 }
 
 .editor-form {
@@ -135,7 +135,7 @@ h3 {
 
 .form-group label {
   font-size: 0.9rem;
-  color: #ccc;
+  color: var(--text-secondary);
 }
 
 .time-input {
@@ -148,14 +148,14 @@ h3 {
   width: 70px;
   padding: 0.5rem;
   font-size: 1rem;
-  border: 1px solid rgba(0, 255, 136, 0.3);
+  border: 1px solid var(--border-color);
   border-radius: 0.25rem;
-  background: rgba(0, 0, 0, 0.5);
-  color: #fff;
+  background: var(--bg-card);
+  color: var(--text-primary);
 }
 
 .time-input span {
-  color: #00ff88;
+  color: var(--primary-color);
   font-size: 1.2rem;
 }
 
@@ -163,22 +163,22 @@ h3 {
   width: 100px;
   padding: 0.5rem;
   font-size: 1rem;
-  border: 1px solid rgba(0, 255, 136, 0.3);
+  border: 1px solid var(--border-color);
   border-radius: 0.25rem;
-  background: rgba(0, 0, 0, 0.5);
-  color: #fff;
+  background: var(--bg-card);
+  color: var(--text-primary);
 }
 
 input:focus {
   outline: none;
-  border-color: #00ff88;
+  border-color: var(--border-hover);
 }
 
 .btn-add {
   padding: 0.5rem 1.5rem;
   font-size: 1rem;
-  background: #00ff88;
-  color: #1a1a2e;
+  background: var(--primary-color);
+  color: var(--bg-primary);
   border: none;
   border-radius: 0.25rem;
   cursor: pointer;
@@ -201,19 +201,19 @@ input:focus {
   align-items: center;
   gap: 1rem;
   padding: 0.75rem;
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--bg-card);
   border-radius: 0.25rem;
   margin-bottom: 0.5rem;
 }
 
 .point-time {
   font-weight: 600;
-  color: #00ff88;
+  color: var(--primary-color);
   min-width: 60px;
 }
 
 .point-rings {
-  color: #ccc;
+  color: var(--text-secondary);
   flex: 1;
 }
 
