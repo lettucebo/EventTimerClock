@@ -135,8 +135,8 @@ const {
 .app-header h1 {
   font-size: clamp(2rem, 5vw, 3rem);
   margin: 0;
-  color: #00ff88;
-  text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+  color: var(--primary-color);
+  text-shadow: 0 0 20px var(--primary-shadow);
 }
 
 .subtitle {
