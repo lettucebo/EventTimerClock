@@ -21,11 +21,10 @@ function getBrowserLocale(): SupportedLocale {
   
   // 語言碼匹配 (例如: zh-CN, zh-HK -> zh-TW)
   const langCode = browserLang.split('-')[0]
-  if (langCode === 'zh') {
-    return 'zh-TW'
-  }
-  if (langCode === 'en') {
-    return 'en'
+  for (const locale of Object.keys(SUPPORTED_LOCALES)) {
+    if (locale.split('-')[0] === langCode) {
+      return locale as SupportedLocale
+    }
   }
   
   // 預設使用繁體中文
