@@ -9,16 +9,19 @@ export function useAlarm(currentSeconds: () => number) {
   watch(
     () => currentSeconds(),
     async (seconds) => {
-      const updatedPoints = [];
-      for (const point of timePoints.value) {
+      let changed = false;
+      const updatedPoints = timePoints.value.map(point => {
         if (!point.triggered && seconds >= point.timeInSeconds) {
-          updatedPoints.push({ ...point, triggered: true });
-          await triggerAlarm(point.ringCount);
-        } else {
-          updatedPoints.push(point);
+          changed = true;
+          // Trigger alarm asynchronously without blocking the update
+          triggerAlarm(point.ringCount);
+          return { ...point, triggered: true };
         }
+        return point;
+      });
+      if (changed) {
+        timePoints.value = updatedPoints;
       }
-      timePoints.value = updatedPoints;
     }
   );
 

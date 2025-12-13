@@ -128,7 +128,7 @@ function saveAsTemplate() {
   
   const maxTime = Math.max(...validTimes);
   const preset: Preset = {
-    id: crypto.randomUUID(),
+    id: 'custom-' + crypto.randomUUID(),
     name: customName.value,
     totalTime: maxTime,
     timePoints: props.timePoints.map(p => ({ ...p })),
