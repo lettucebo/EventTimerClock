@@ -56,6 +56,34 @@ Built-in templates:
 - Node.js 18+ 
 - npm or yarn
 
+### Deployment
+
+This project uses GitHub Actions for automatic deployment to GitHub Pages. The deployment workflow is triggered **only when a commit is tagged**.
+
+#### How to Deploy
+
+1. **Tag a commit** to trigger deployment:
+   ```bash
+   # Create and push a tag
+   git tag v1.0.0
+   git push origin v1.0.0
+   
+   # Or create a lightweight tag with any name
+   git tag release-2024-01-01
+   git push origin release-2024-01-01
+   ```
+
+2. **Manual deployment** via GitHub Actions UI:
+   - Go to Actions tab → Deploy to GitHub Pages workflow
+   - Click "Run workflow" button
+   - Select branch and run
+
+3. **View deployment status**:
+   - Check the [Deploy workflow](https://github.com/lettucebo/EventTimerClock/actions/workflows/deploy.yml) badge
+   - Visit GitHub Pages URL after successful deployment
+
+> 📝 **Note**: Regular commits without tags will **not** trigger deployment. This ensures only releases are deployed to production.
+
 ### Installation
 
 ```bash
