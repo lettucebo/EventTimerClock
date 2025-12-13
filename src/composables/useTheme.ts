@@ -11,6 +11,7 @@ export interface ThemeState {
   setTheme: (theme: Theme) => void;
   toggleTheme: () => void;
   initTheme: () => void;
+  cleanup: () => void;
 }
 
 export const ThemeKey: InjectionKey<ThemeState> = Symbol('theme');
@@ -49,16 +50,26 @@ export function createTheme(): ThemeState {
   };
 
   // 檢測系統主題偏好
+  let mediaQueryListener: ((e: MediaQueryListEvent) => void) | null = null;
+  
   const detectSystemTheme = () => {
     if (window.matchMedia) {
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
       systemPrefersDark.value = mediaQuery.matches;
 
-      // 監聽系統主題變化
-      mediaQuery.addEventListener('change', (e) => {
+      // 移除舊的監聽器（如果存在）
+      if (mediaQueryListener) {
+        mediaQuery.removeEventListener('change', mediaQueryListener);
+      }
+
+      // 建立新的監聽器
+      mediaQueryListener = (e: MediaQueryListEvent) => {
         systemPrefersDark.value = e.matches;
         applyTheme();
-      });
+      };
+
+      // 監聽系統主題變化
+      mediaQuery.addEventListener('change', mediaQueryListener);
     }
   };
 
@@ -97,6 +108,15 @@ export function createTheme(): ThemeState {
     applyTheme();
   };
 
+  // 清理函式
+  const cleanup = () => {
+    if (mediaQueryListener && window.matchMedia) {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      mediaQuery.removeEventListener('change', mediaQueryListener);
+      mediaQueryListener = null;
+    }
+  };
+
   // 監聽系統主題變化（當使用 auto 模式時）
   watch(systemPrefersDark, () => {
     if (currentTheme.value === 'auto') {
@@ -110,6 +130,7 @@ export function createTheme(): ThemeState {
     setTheme,
     toggleTheme,
     initTheme,
+    cleanup,
   };
 }
 

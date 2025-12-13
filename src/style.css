@@ -1,7 +1,5 @@
 :root {
   --primary-color: #00ff88;
-  --primary-shadow: rgba(0, 255, 136, 0.5);
-  --primary-shadow-light: rgba(0, 255, 136, 0.3);
 }
 
 /* Dark theme (default) */
@@ -16,6 +14,8 @@
   --border-color: rgba(0, 255, 136, 0.3);
   --border-hover: #00ff88;
   --shadow-color: rgba(0, 0, 0, 0.3);
+  --primary-shadow: rgba(0, 255, 136, 0.5);
+  --primary-shadow-light: rgba(0, 255, 136, 0.3);
   --scrollbar-bg: rgba(0, 0, 0, 0.2);
   --scrollbar-thumb: rgba(0, 255, 136, 0.3);
   --scrollbar-thumb-hover: rgba(0, 255, 136, 0.5);
@@ -32,6 +32,8 @@
   --border-color: rgba(0, 255, 136, 0.4);
   --border-hover: #00dd77;
   --shadow-color: rgba(0, 0, 0, 0.15);
+  --primary-shadow: rgba(0, 255, 136, 0.3);
+  --primary-shadow-light: rgba(0, 255, 136, 0.2);
   --scrollbar-bg: rgba(0, 0, 0, 0.1);
   --scrollbar-thumb: rgba(0, 255, 136, 0.4);
   --scrollbar-thumb-hover: rgba(0, 255, 136, 0.6);
