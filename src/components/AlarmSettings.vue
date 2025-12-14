@@ -84,7 +84,6 @@ const customName = ref('');
 
 function selectPreset(preset: Preset) {
   emit('selectPreset', preset);
-  // Stay in preset mode - don't switch to custom mode
 }
 
 function copyAndEditPreset(preset: Preset) {
