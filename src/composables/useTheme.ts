@@ -62,7 +62,10 @@ export function createTheme(): ThemeState {
       // Create new listener
       mediaQueryListener = (e: MediaQueryListEvent) => {
         systemPrefersDark.value = e.matches;
-        applyTheme();
+        // Only apply theme if in auto mode
+        if (currentTheme.value === 'auto') {
+          applyTheme();
+        }
       };
 
       // Listen to system theme changes
