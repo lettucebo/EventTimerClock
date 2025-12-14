@@ -3,11 +3,11 @@
 [![CI Build](https://github.com/lettucebo/EventTimerClock/actions/workflows/ci.yml/badge.svg)](https://github.com/lettucebo/EventTimerClock/actions/workflows/ci.yml)
 [![Deploy](https://github.com/lettucebo/EventTimerClock/actions/workflows/deploy.yml/badge.svg)](https://github.com/lettucebo/EventTimerClock/actions/workflows/deploy.yml)
 
-> [English](README.en.md) | [繁體中文](README.zh-TW.md)
+> English | [繁體中文](README.zh-TW.md)
 
 A stopwatch-style event timer application built with Vue 3, Vite, and TypeScript. Perfect for presentations, speeches, and events with customizable time-based alarms.
 
-![Event Timer Clock Screenshot](docs/screenshots/app-screenshot.png)
+![Event Timer Clock Screenshot](docs/screenshots/app-screenshot-en.png)
 
 ## ✨ Features
 
@@ -71,8 +71,8 @@ This project uses GitHub Actions for automatic deployment to GitHub Pages. The d
    git push origin v1.0.0
    
    # Or create a lightweight tag with any name
-   git tag release-2024-01-01
-   git push origin release-2024-01-01
+   git tag release-YYYY-MM-DD
+   git push origin release-YYYY-MM-DD
    ```
 
 2. **Manual deployment** via GitHub Actions UI:
@@ -115,22 +115,22 @@ npm run preview
 ## 📖 Usage Guide
 
 ### Using Preset Templates
-1. Select a preset template from the "預設模板" section
+1. Select a preset template from the "Preset Templates" section
 2. Click on a template card to load its time points
-3. Click "開始" to start the timer
+3. Click "Start" to start the timer
 
 ### Creating Custom Alarms
-1. Switch to "自訂設定" mode
+1. Switch to "Custom Settings" mode
 2. Enter time in minutes and seconds
 3. Set the number of beeps (1-5)
-4. Click "新增" to add the time point
-5. Add a template name and click "儲存為模板" to save
+4. Click "Add" to add the time point
+5. Add a template name and click "Save as Template" to save
 
 ### Controlling the Timer
-- **開始 (Start)**: Begin timing from current position
-- **暫停 (Pause)**: Pause the timer
-- **重置 (Reset)**: Reset to 00:00 and clear all triggered alarms
-- **全螢幕 (Fullscreen)**: Toggle fullscreen mode
+- **Start**: Begin timing from current position
+- **Pause**: Pause the timer
+- **Reset**: Reset to 00:00 and clear all triggered alarms
+- **Fullscreen**: Toggle fullscreen mode
 
 ## 🏗️ Project Structure
 
