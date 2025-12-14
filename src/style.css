@@ -19,6 +19,8 @@
   --scrollbar-bg: rgba(0, 0, 0, 0.2);
   --scrollbar-thumb: rgba(0, 255, 136, 0.3);
   --scrollbar-thumb-hover: rgba(0, 255, 136, 0.5);
+  --error-color: #ff4444;
+  --info-color: #4444ff;
 }
 
 /* Light theme */
@@ -37,6 +39,8 @@
   --scrollbar-bg: rgba(0, 0, 0, 0.1);
   --scrollbar-thumb: rgba(0, 255, 136, 0.4);
   --scrollbar-thumb-hover: rgba(0, 255, 136, 0.6);
+  --error-color: #dd3333;
+  --info-color: #3333dd;
 }
 
 * {

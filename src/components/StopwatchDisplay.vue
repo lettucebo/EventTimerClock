@@ -24,7 +24,6 @@ defineProps<{
 }
 
 .stopwatch-display.flashing {
-  background: rgba(255, 100, 100, 0.5);
   animation: flash 0.5s ease-in-out 2;
 }
 

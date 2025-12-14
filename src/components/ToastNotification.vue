@@ -45,12 +45,12 @@ const { toasts } = useToast();
 }
 
 .toast-error {
-  background: #ff4444;
+  background: var(--error-color);
   color: white;
 }
 
 .toast-info {
-  background: #4444ff;
+  background: var(--info-color);
   color: white;
 }
 

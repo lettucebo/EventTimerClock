@@ -1,4 +1,4 @@
-import { ref, watch, inject, provide } from 'vue';
+import { ref, inject, provide } from 'vue';
 import type { InjectionKey, Ref } from 'vue';
 
 export type Theme = 'light' | 'dark' | 'auto';
@@ -55,12 +55,6 @@ export function createTheme(): ThemeState {
   // Detect system theme preference
   const detectSystemTheme = () => {
     if (window.matchMedia) {
-      // Clean up existing listener if present
-      if (mediaQueryListener && mediaQueryList) {
-        mediaQueryList.removeEventListener('change', mediaQueryListener);
-        mediaQueryListener = null;
-      }
-
       // Create new MediaQueryList
       mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
       systemPrefersDark.value = mediaQueryList.matches;
@@ -119,13 +113,6 @@ export function createTheme(): ThemeState {
       mediaQueryList = null;
     }
   };
-
-  // Watch system theme changes (when using auto mode)
-  watch(systemPrefersDark, () => {
-    if (currentTheme.value === 'auto') {
-      applyTheme();
-    }
-  });
 
   return {
     currentTheme,
