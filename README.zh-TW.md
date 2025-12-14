@@ -71,8 +71,8 @@
    git push origin v1.0.0
    
    # 或使用任何名稱建立輕量級標籤
-   git tag release-2024-01-01
-   git push origin release-2024-01-01
+   git tag release-YYYY-MM-DD
+   git push origin release-YYYY-MM-DD
    ```
 
 2. **手動部署**透過 GitHub Actions UI：
