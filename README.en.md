@@ -71,8 +71,8 @@ This project uses GitHub Actions for automatic deployment to GitHub Pages. The d
    git push origin v1.0.0
    
    # Or create a lightweight tag with any name
-   git tag release-2024-01-01
-   git push origin release-2024-01-01
+   git tag release-YYYY-MM-DD
+   git push origin release-YYYY-MM-DD
    ```
 
 2. **Manual deployment** via GitHub Actions UI:
