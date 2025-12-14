@@ -26,6 +26,7 @@
 
 /* Light theme */
 :root.light-theme {
+  --primary-color: #00aa66;
   --bg-primary: #f8faf9;
   --bg-secondary: #e8f5ed;
   --bg-card: rgba(0, 180, 100, 0.06);
@@ -33,7 +34,7 @@
   --text-secondary: #2d4a3c;
   --text-tertiary: #5a7a6a;
   --border-color: rgba(0, 180, 100, 0.25);
-  --border-hover: #00aa66;
+  --border-hover: var(--primary-color);
   --shadow-color: rgba(0, 100, 60, 0.12);
   --primary-shadow: rgba(0, 180, 100, 0.35);
   --primary-shadow-light: rgba(0, 180, 100, 0.2);
@@ -43,7 +44,6 @@
   --error-color: #cc2222;
   --error-bg: rgba(200, 50, 50, 0.15);
   --info-color: #2266cc;
-  --primary-color: #00aa66;
 }
 
 * {
