@@ -26,24 +26,24 @@
 
 /* Light theme */
 :root.light-theme {
-  --primary-color: #00aa66;
-  --bg-primary: #f8faf9;
-  --bg-secondary: #e8f5ed;
-  --bg-card: rgba(0, 180, 100, 0.06);
-  --text-primary: #1a2f25;
-  --text-secondary: #2d4a3c;
-  --text-tertiary: #5a7a6a;
-  --border-color: rgba(0, 180, 100, 0.25);
+  --primary-color: #0891b2;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f1f5f9;
+  --bg-card: rgba(15, 23, 42, 0.04);
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-tertiary: #64748b;
+  --border-color: rgba(8, 145, 178, 0.25);
   --border-hover: var(--primary-color);
-  --shadow-color: rgba(0, 100, 60, 0.12);
-  --primary-shadow: rgba(0, 180, 100, 0.35);
-  --primary-shadow-light: rgba(0, 180, 100, 0.2);
-  --scrollbar-bg: rgba(0, 100, 60, 0.08);
-  --scrollbar-thumb: rgba(0, 180, 100, 0.35);
-  --scrollbar-thumb-hover: rgba(0, 180, 100, 0.5);
-  --error-color: #cc2222;
-  --error-bg: rgba(200, 50, 50, 0.15);
-  --info-color: #2266cc;
+  --shadow-color: rgba(15, 23, 42, 0.08);
+  --primary-shadow: rgba(8, 145, 178, 0.4);
+  --primary-shadow-light: rgba(8, 145, 178, 0.2);
+  --scrollbar-bg: rgba(15, 23, 42, 0.06);
+  --scrollbar-thumb: rgba(8, 145, 178, 0.35);
+  --scrollbar-thumb-hover: rgba(8, 145, 178, 0.5);
+  --error-color: #dc2626;
+  --error-bg: rgba(220, 38, 38, 0.12);
+  --info-color: #2563eb;
 }
 
 * {
