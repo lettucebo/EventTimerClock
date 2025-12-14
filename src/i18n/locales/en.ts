@@ -19,6 +19,7 @@ export default {
     totalTime: 'Total Time',
     ringsCount: 'Ring(s)',
     delete: 'Delete',
+    copyAndEdit: 'Copy & Edit',
     addCustomTemplate: 'Add Custom Template',
     templateName: 'Template Name',
     saveAsTemplate: 'Save as Template',

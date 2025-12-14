@@ -19,6 +19,7 @@ export default {
     totalTime: '總時間',
     ringsCount: '次響鈴',
     delete: '刪除',
+    copyAndEdit: '複製與編輯',
     addCustomTemplate: '新增自訂模板',
     templateName: '模板名稱',
     saveAsTemplate: '儲存為模板',
