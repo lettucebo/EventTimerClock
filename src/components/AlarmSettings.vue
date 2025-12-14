@@ -144,7 +144,7 @@ function saveAsTemplate() {
 
 <style scoped>
 .alarm-settings {
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--bg-card);
   border-radius: 0.5rem;
   padding: 1.5rem;
 }
@@ -160,14 +160,14 @@ function saveAsTemplate() {
 
 h2 {
   font-size: 1.8rem;
-  color: #00ff88;
+  color: var(--primary-color);
   margin: 0;
 }
 
 .mode-toggle {
   display: flex;
   gap: 0.5rem;
-  background: rgba(0, 0, 0, 0.3);
+  background: var(--bg-card);
   border-radius: 0.5rem;
   padding: 0.25rem;
 }
@@ -176,7 +176,7 @@ h2 {
   padding: 0.5rem 1rem;
   font-size: 1rem;
   background: transparent;
-  color: #ccc;
+  color: var(--text-secondary);
   border: none;
   border-radius: 0.25rem;
   cursor: pointer;
@@ -184,13 +184,13 @@ h2 {
 }
 
 .toggle-btn.active {
-  background: #00ff88;
-  color: #1a1a2e;
+  background: var(--primary-color);
+  color: var(--bg-primary);
   font-weight: 600;
 }
 
 .toggle-btn:hover:not(.active) {
-  color: #00ff88;
+  color: var(--primary-color);
 }
 
 .custom-actions {
@@ -205,15 +205,15 @@ h2 {
   min-width: 200px;
   padding: 0.5rem 1rem;
   font-size: 1rem;
-  border: 1px solid rgba(0, 255, 136, 0.3);
+  border: 1px solid var(--border-color);
   border-radius: 0.25rem;
-  background: rgba(0, 0, 0, 0.5);
-  color: #fff;
+  background: var(--bg-card);
+  color: var(--text-primary);
 }
 
 .custom-name-input:focus {
   outline: none;
-  border-color: #00ff88;
+  border-color: var(--border-hover);
 }
 
 .btn {
@@ -227,8 +227,8 @@ h2 {
 }
 
 .btn-save {
-  background: #00ff88;
-  color: #1a1a2e;
+  background: var(--primary-color);
+  color: var(--bg-primary);
 }
 
 .btn-save:hover {

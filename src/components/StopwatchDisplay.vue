@@ -17,14 +17,13 @@ defineProps<{
   justify-content: center;
   align-items: center;
   padding: 4rem 2rem;
-  background: rgba(0, 0, 0, 0.3);
+  background: var(--bg-card);
   border-radius: 1rem;
   margin-bottom: 2rem;
   transition: background-color 0.3s ease;
 }
 
 .stopwatch-display.flashing {
-  background: rgba(255, 100, 100, 0.5);
   animation: flash 0.5s ease-in-out 2;
 }
 
@@ -32,17 +31,17 @@ defineProps<{
   font-size: clamp(4rem, 15vw, 10rem);
   font-weight: 700;
   font-family: 'Courier New', monospace;
-  color: #00ff88;
-  text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+  color: var(--primary-color);
+  text-shadow: 0 0 20px var(--primary-shadow);
   letter-spacing: 0.1em;
 }
 
 @keyframes flash {
   0%, 100% {
-    background: rgba(0, 0, 0, 0.3);
+    background: var(--bg-card);
   }
   50% {
-    background: rgba(255, 100, 100, 0.7);
+    background: var(--error-bg);
   }
 }
 

@@ -6,7 +6,10 @@
           <h1>⏱️ {{ t('app.title') }}</h1>
           <p class="subtitle">{{ t('app.subtitle') }}</p>
         </div>
-        <LanguageSwitcher />
+        <div class="header-controls">
+          <ThemeSwitcher />
+          <LanguageSwitcher />
+        </div>
       </div>
     </header>
 
@@ -44,20 +47,33 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { Preset } from './types';
 import { useStopwatch } from './composables/useStopwatch';
 import { useAlarm } from './composables/useAlarm';
 import { useStorage } from './composables/useStorage';
+import { provideTheme } from './composables/useTheme';
 import StopwatchDisplay from './components/StopwatchDisplay.vue';
 import ControlButtons from './components/ControlButtons.vue';
 import AlarmSettings from './components/AlarmSettings.vue';
 import ToastNotification from './components/ToastNotification.vue';
 import LanguageSwitcher from './components/LanguageSwitcher.vue';
+import ThemeSwitcher from './components/ThemeSwitcher.vue';
 
 const { t } = useI18n();
 
-// 碼錶邏輯
+// Initialize theme
+const theme = provideTheme();
+onMounted(() => {
+  theme.initTheme();
+});
+
+onUnmounted(() => {
+  theme.cleanup();
+});
+
+// Stopwatch logic
 const { 
   isRunning, 
   formattedTime, 
@@ -67,7 +83,7 @@ const {
   reset 
 } = useStopwatch();
 
-// 響鈴邏輯
+// Alarm logic
 const { 
   timePoints, 
   isFlashing,
@@ -78,14 +94,12 @@ const {
   setTimePoints,
 } = useAlarm(() => currentSeconds.value);
 
-// 儲存邏輯
+// Storage logic
 const {
   customPresets,
   addCustomPreset,
   removeCustomPreset,
 } = useStorage();
-
-// No wrapper functions needed - using composable functions directly
 </script>
 
 <style scoped>
@@ -112,16 +126,22 @@ const {
   flex: 1;
 }
 
+.header-controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
 .app-header h1 {
   font-size: clamp(2rem, 5vw, 3rem);
   margin: 0;
-  color: #00ff88;
-  text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+  color: var(--primary-color);
+  text-shadow: 0 0 20px var(--primary-shadow);
 }
 
 .subtitle {
   font-size: 1.2rem;
-  color: #aaa;
+  color: var(--text-tertiary);
   margin: 0.5rem 0 0;
 }
 
@@ -135,7 +155,7 @@ const {
 .app-footer {
   text-align: center;
   padding: 2rem 0 0;
-  color: #666;
+  color: var(--text-tertiary);
   font-size: 0.9rem;
 }
 
@@ -154,6 +174,11 @@ const {
   }
   
   .title-section {
+    width: 100%;
+  }
+  
+  .header-controls {
+    flex-direction: column;
     width: 100%;
   }
 }

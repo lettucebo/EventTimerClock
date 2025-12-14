@@ -33,24 +33,24 @@ const { toasts } = useToast();
 .toast {
   padding: 1rem 1.5rem;
   border-radius: 0.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px var(--shadow-color);
   font-weight: 600;
   min-width: 250px;
   pointer-events: auto;
 }
 
 .toast-success {
-  background: #00ff88;
-  color: #1a1a2e;
+  background: var(--primary-color);
+  color: var(--bg-primary);
 }
 
 .toast-error {
-  background: #ff4444;
+  background: var(--error-color);
   color: white;
 }
 
 .toast-info {
-  background: #4444ff;
+  background: var(--info-color);
   color: white;
 }
 

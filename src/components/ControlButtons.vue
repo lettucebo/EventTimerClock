@@ -111,8 +111,8 @@ onUnmounted(() => {
 }
 
 .btn-start {
-  background: #00ff88;
-  color: #1a1a2e;
+  background: var(--primary-color);
+  color: var(--bg-primary);
 }
 
 .btn-start:hover {
@@ -121,7 +121,7 @@ onUnmounted(() => {
 
 .btn-pause {
   background: #ffa500;
-  color: #1a1a2e;
+  color: var(--bg-primary);
 }
 
 .btn-pause:hover {
