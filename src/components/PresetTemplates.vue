@@ -16,6 +16,13 @@
           </li>
         </ul>
         <button 
+          v-if="!preset.id.startsWith('custom-')"
+          @click.stop="$emit('copyAndEdit', preset)"
+          class="btn-copy-edit"
+        >
+          {{ t('alarm.copyAndEdit') }}
+        </button>
+        <button 
           v-if="preset.id.startsWith('custom-')"
           @click.stop="$emit('delete', preset.id)"
           class="btn-delete"
@@ -47,6 +54,7 @@ const props = defineProps<{
 
 defineEmits<{
   select: [preset: Preset];
+  copyAndEdit: [preset: Preset];
   delete: [id: string];
   addCustom: [];
 }>();
@@ -177,6 +185,24 @@ h2 {
 
 .btn-delete:hover {
   background: #dd3333;
+}
+
+.btn-copy-edit {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-copy-edit:hover {
+  background: #00dd77;
 }
 
 @media (max-width: 768px) {

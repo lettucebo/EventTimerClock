@@ -24,6 +24,7 @@
       <PresetTemplates 
         :custom-presets="customPresets"
         @select="selectPreset"
+        @copy-and-edit="copyAndEditPreset"
         @delete="deletePreset"
         @add-custom="showCustomEditor"
       />
@@ -82,6 +83,10 @@ const mode = ref<'preset' | 'custom'>('preset');
 const customName = ref('');
 
 function selectPreset(preset: Preset) {
+  emit('selectPreset', preset);
+}
+
+function copyAndEditPreset(preset: Preset) {
   emit('selectPreset', preset);
   mode.value = 'custom';
 }
