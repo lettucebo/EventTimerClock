@@ -41,7 +41,7 @@ defineProps<{
     background: var(--bg-card);
   }
   50% {
-    background: color-mix(in srgb, var(--error-color) 70%, transparent);
+    background: var(--error-bg);
   }
 }
 
