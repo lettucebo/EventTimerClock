@@ -12,7 +12,11 @@
             :key="ringtone.id"
             class="ringtone-card"
             :class="{ selected: selectedRingtoneId === ringtone.id }"
+            role="button"
+            tabindex="0"
             @click="selectRingtone(ringtone.id)"
+            @keydown.enter="selectRingtone(ringtone.id)"
+            @keydown.space.prevent="selectRingtone(ringtone.id)"
           >
             <span class="ringtone-icon">🔔</span>
             <span class="ringtone-name">{{ t(ringtone.name) }}</span>
@@ -20,6 +24,7 @@
               class="btn-preview" 
               @click.stop="previewRingtone(ringtone)"
               :disabled="isPlaying"
+              :aria-label="isPlaying && playingId === ringtone.id ? t('ringtone.stopPreview') : t('ringtone.preview')"
             >
               {{ isPlaying && playingId === ringtone.id ? '⏹️' : '▶️' }}
             </button>
@@ -36,7 +41,11 @@
             :key="ringtone.id"
             class="ringtone-card"
             :class="{ selected: selectedRingtoneId === ringtone.id }"
+            role="button"
+            tabindex="0"
             @click="selectRingtone(ringtone.id)"
+            @keydown.enter="selectRingtone(ringtone.id)"
+            @keydown.space.prevent="selectRingtone(ringtone.id)"
           >
             <span class="ringtone-icon">🎵</span>
             <span class="ringtone-name">{{ ringtone.name }}</span>
@@ -45,12 +54,14 @@
                 class="btn-preview" 
                 @click.stop="previewRingtone(ringtone)"
                 :disabled="isPlaying"
+                :aria-label="isPlaying && playingId === ringtone.id ? t('ringtone.stopPreview') : t('ringtone.preview')"
               >
                 {{ isPlaying && playingId === ringtone.id ? '⏹️' : '▶️' }}
               </button>
               <button 
                 class="btn-delete" 
                 @click.stop="deleteRingtone(ringtone.id)"
+                :aria-label="t('ringtone.deleteLabel')"
               >
                 🗑️
               </button>
@@ -58,11 +69,18 @@
           </div>
 
           <!-- Upload Card -->
-          <div class="ringtone-card upload-card" @click="triggerUpload">
+          <div 
+            class="ringtone-card upload-card" 
+            role="button"
+            tabindex="0"
+            @click="triggerUpload"
+            @keydown.enter="triggerUpload"
+            @keydown.space.prevent="triggerUpload"
+          >
             <input 
               ref="fileInput"
               type="file" 
-              accept="audio/mpeg,audio/wav,audio/ogg,audio/mp3"
+              :accept="ALLOWED_FORMATS.join(',')"
               @change="handleFileUpload"
               style="display: none;"
             />
@@ -74,15 +92,29 @@
     </div>
 
     <!-- Upload Dialog -->
-    <div v-if="showUploadDialog" class="upload-dialog-overlay" @click.self="closeUploadDialog">
-      <div class="upload-dialog">
-        <h4>{{ t('ringtone.uploadTitle') }}</h4>
+    <div 
+      v-if="showUploadDialog" 
+      class="upload-dialog-overlay" 
+      @click.self="closeUploadDialog"
+      @keydown.escape="closeUploadDialog"
+    >
+      <div 
+        class="upload-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="upload-dialog-title"
+        ref="dialogRef"
+      >
+        <h4 id="upload-dialog-title">{{ t('ringtone.uploadTitle') }}</h4>
         <p class="file-name">{{ uploadFileName }}</p>
         <input 
           v-model="customRingtoneName"
           type="text"
           :placeholder="t('ringtone.namePlaceholder')"
+          :maxlength="MAX_NAME_LENGTH"
           class="name-input"
+          ref="nameInputRef"
+          @keydown.enter="confirmUpload"
         />
         <div class="dialog-actions">
           <button class="btn btn-cancel" @click="closeUploadDialog">
@@ -99,10 +131,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, watch, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { Ringtone } from '../types';
-import { useRingtoneStorage } from '../composables/useRingtoneStorage';
+import { useRingtoneStorage, ALLOWED_FORMATS } from '../composables/useRingtoneStorage';
 import { useToast } from '../composables/useToast';
 import { playRingtone, stopCurrentAudio } from '../utils/audio';
 
@@ -115,6 +147,7 @@ const {
   selectRingtone: selectRingtoneStorage,
   addCustomRingtone,
   removeCustomRingtone,
+  MAX_NAME_LENGTH,
 } = useRingtoneStorage();
 
 // Preview state
@@ -127,6 +160,16 @@ const showUploadDialog = ref(false);
 const uploadFileName = ref('');
 const customRingtoneName = ref('');
 const pendingFile = ref<File | null>(null);
+const dialogRef = ref<HTMLElement | null>(null);
+const nameInputRef = ref<HTMLInputElement | null>(null);
+
+// Focus management for dialog
+watch(showUploadDialog, async (isOpen) => {
+  if (isOpen) {
+    await nextTick();
+    nameInputRef.value?.focus();
+  }
+});
 
 // Computed
 const presetRingtones = computed<Ringtone[]>(() => {

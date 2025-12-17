@@ -13,6 +13,10 @@ interface WindowWithWebkit extends Window {
 const MIN_RING_COUNT = 1;
 const MAX_RING_COUNT = 5;
 
+// Constants for timing (ms)
+const DEFAULT_NOTE_DELAY = 300;
+const RINGTONE_REPEAT_DELAY = 500;
+
 // Default ringtone ID (classic beep)
 export const DEFAULT_RINGTONE_ID = 'preset-classic';
 
@@ -23,7 +27,7 @@ export interface PresetRingtoneConfig {
   frequency: number;
   waveType: OscillatorType;
   duration: number;
-  pattern: number[];  // Pattern of delays between notes
+  pattern: number[];  // Pattern of delays (ms) between notes; if there are more notes than pattern values, the pattern repeats using modulo arithmetic (e.g., pattern [100, 200] with 4 notes yields delays: 100, 200, 100, 200)
   notes?: number[];   // Multiple frequencies for melody
 }
 
@@ -123,7 +127,7 @@ export async function playPresetRingtone(config: PresetRingtoneConfig) {
   for (let i = 0; i < notes.length; i++) {
     playBeep(notes[i], config.duration, config.waveType);
     if (i < notes.length - 1) {
-      const delay = config.pattern[i % config.pattern.length] || 300;
+      const delay = config.pattern[i % config.pattern.length] || DEFAULT_NOTE_DELAY;
       await new Promise(resolve => setTimeout(resolve, delay));
     }
   }
@@ -149,17 +153,44 @@ export async function playCustomRingtone(ringtone: Ringtone): Promise<void> {
 
       currentAudio = audio;
 
-      audio.onended = () => {
+      const cleanup = () => {
+        // Clear src to release memory from base64 data
+        audio.src = '';
+        audio.onended = null;
+        audio.onerror = null;
         currentAudio = null;
+      };
+
+      audio.onended = () => {
+        cleanup();
         resolve();
       };
 
       audio.onerror = () => {
-        currentAudio = null;
-        reject(new Error('Failed to play audio'));
+        const mediaError = audio.error;
+
+        let details = '';
+        if (mediaError) {
+          const codeNameMap: Record<number, string> = {
+            1: 'MEDIA_ERR_ABORTED',
+            2: 'MEDIA_ERR_NETWORK',
+            3: 'MEDIA_ERR_DECODE',
+            4: 'MEDIA_ERR_SRC_NOT_SUPPORTED',
+          };
+          const codeName = codeNameMap[mediaError.code] ?? `CODE_${mediaError.code}`;
+          details = ` (code=${mediaError.code} ${codeName})`;
+        }
+
+        const errorMessage = `Failed to play audio${details}`;
+        console.error(errorMessage, { mediaError });
+        cleanup();
+        reject(new Error(errorMessage));
       };
 
-      audio.play().catch(reject);
+      audio.play().catch((err) => {
+        cleanup();
+        reject(err);
+      });
     } catch (err) {
       reject(new Error(`Failed to play custom ringtone: ${err instanceof Error ? err.message : String(err)}`));
     }
@@ -171,6 +202,8 @@ export function stopCurrentAudio() {
   if (currentAudio) {
     currentAudio.pause();
     currentAudio.currentTime = 0;
+    // Clear src to release memory from base64 data
+    currentAudio.src = '';
     currentAudio = null;
   }
 }
@@ -201,7 +234,7 @@ export async function playRingtone(ringtone: Ringtone | null, count: number = 1)
     }
 
     if (i < count - 1) {
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise(resolve => setTimeout(resolve, RINGTONE_REPEAT_DELAY));
     }
   }
 }

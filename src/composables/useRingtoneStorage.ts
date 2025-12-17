@@ -1,35 +1,57 @@
 import { ref, watch, computed } from 'vue';
 import type { Ringtone, RingtoneSettings } from '../types';
-import { PRESET_RINGTONES, DEFAULT_RINGTONE_ID } from '../utils/audio';
+import { PRESET_RINGTONES, DEFAULT_RINGTONE_ID, stopCurrentAudio } from '../utils/audio';
 
 const STORAGE_KEY = 'event-timer-ringtone-settings';
 
-// Maximum file size for custom ringtones (2MB)
-const MAX_FILE_SIZE = 2 * 1024 * 1024;
+// Maximum file size for custom ringtones (512KB to avoid localStorage quota issues)
+const MAX_FILE_SIZE = 512 * 1024;
 
-// Allowed audio formats
-const ALLOWED_FORMATS = ['audio/mpeg', 'audio/wav', 'audio/ogg', 'audio/mp3'];
+// Maximum name length for custom ringtones
+const MAX_NAME_LENGTH = 50;
+
+// Allowed audio formats (MIME types)
+export const ALLOWED_FORMATS = ['audio/mpeg', 'audio/wav', 'audio/ogg', 'audio/mp3'];
+
+// Allowed file extensions
+const ALLOWED_EXTENSIONS = ['.mp3', '.wav', '.ogg'];
 
 export interface FileValidationResult {
   valid: boolean;
   error?: string;
 }
 
+// Singleton state - shared across all usages
+const selectedRingtoneId = ref<string>(DEFAULT_RINGTONE_ID);
+const customRingtones = ref<Ringtone[]>([]);
+let isInitialized = false;
+
 export function useRingtoneStorage() {
-  const selectedRingtoneId = ref<string>(DEFAULT_RINGTONE_ID);
-  const customRingtones = ref<Ringtone[]>([]);
 
   // Load settings from localStorage
   function loadSettings() {
+    let stored: string | null = null;
     try {
-      const stored = localStorage.getItem(STORAGE_KEY);
+      stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
         const settings: RingtoneSettings = JSON.parse(stored);
         selectedRingtoneId.value = settings.selectedRingtoneId || DEFAULT_RINGTONE_ID;
         customRingtones.value = settings.customRingtones || [];
       }
     } catch (error) {
-      console.error('Failed to load ringtone settings:', error);
+      const storedValuePreview =
+        stored && stored.length > 200 ? stored.slice(0, 200) + '…' : stored;
+      console.error(
+        'Failed to load ringtone settings from localStorage. Stored value will be reset.',
+        {
+          error,
+          storedValuePreview,
+        },
+      );
+      // Remove potentially corrupted data and fall back to defaults
+      localStorage.removeItem(STORAGE_KEY);
+      selectedRingtoneId.value = DEFAULT_RINGTONE_ID;
+      customRingtones.value = [];
     }
   }
 
@@ -42,7 +64,24 @@ export function useRingtoneStorage() {
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
     } catch (error) {
-      console.error('Failed to save ringtone settings:', error);
+      let message = 'Failed to save ringtone settings.';
+
+      // Provide a more specific explanation when localStorage quota is exceeded
+      if (error instanceof DOMException) {
+        const quotaExceeded =
+          error.name === 'QuotaExceededError' ||
+          // Legacy codes for quota errors in some browsers
+          error.code === 22 ||
+          error.code === 1014;
+
+        if (quotaExceeded) {
+          message =
+            'Unable to save ringtone settings because the browser storage limit has been reached. ' +
+            'Try deleting some custom ringtones or clearing other saved data, then try again.';
+        }
+      }
+
+      console.error(message, error);
     }
   }
 
@@ -79,8 +118,18 @@ export function useRingtoneStorage() {
       };
     }
 
-    // Check file type
+    // Check file type (MIME type)
     if (!ALLOWED_FORMATS.includes(file.type)) {
+      return {
+        valid: false,
+        error: 'invalidFormat',  // i18n key
+      };
+    }
+
+    // Additional check: validate file extension
+    const fileName = file.name.toLowerCase();
+    const hasValidExtension = ALLOWED_EXTENSIONS.some(ext => fileName.endsWith(ext));
+    if (!hasValidExtension) {
       return {
         valid: false,
         error: 'invalidFormat',  // i18n key
@@ -90,20 +139,44 @@ export function useRingtoneStorage() {
     return { valid: true };
   }
 
+  // Validate ringtone name
+  function validateName(name: string): FileValidationResult {
+    const trimmedName = name.trim();
+    if (!trimmedName) {
+      return { valid: false, error: 'enterName' };
+    }
+    if (trimmedName.length > MAX_NAME_LENGTH) {
+      return { valid: false, error: 'nameTooLong' };
+    }
+    return { valid: true };
+  }
+
   // Add a custom ringtone
   async function addCustomRingtone(file: File, name: string): Promise<FileValidationResult> {
-    const validation = validateFile(file);
-    if (!validation.valid) {
-      return validation;
+    const fileValidation = validateFile(file);
+    if (!fileValidation.valid) {
+      return fileValidation;
+    }
+
+    const nameValidation = validateName(name);
+    if (!nameValidation.valid) {
+      return nameValidation;
     }
 
     return new Promise((resolve) => {
       const reader = new FileReader();
+      
+      const cleanup = () => {
+        reader.onload = null;
+        reader.onerror = null;
+      };
+
       reader.onload = () => {
+        cleanup();
         const data = reader.result as string;
         const ringtone: Ringtone = {
           id: 'custom-' + crypto.randomUUID(),
-          name,
+          name: name.trim(),
           type: 'custom',
           data,
         };
@@ -111,6 +184,7 @@ export function useRingtoneStorage() {
         resolve({ valid: true });
       };
       reader.onerror = () => {
+        cleanup();
         resolve({ valid: false, error: 'readError' });
       };
       reader.readAsDataURL(file);
@@ -121,6 +195,9 @@ export function useRingtoneStorage() {
   function removeCustomRingtone(id: string) {
     const index = customRingtones.value.findIndex(r => r.id === id);
     if (index !== -1) {
+      // Stop playback if this ringtone is currently playing
+      stopCurrentAudio();
+      
       // If this was the selected ringtone, switch to default
       if (selectedRingtoneId.value === id) {
         selectedRingtoneId.value = DEFAULT_RINGTONE_ID;
@@ -134,8 +211,11 @@ export function useRingtoneStorage() {
     saveSettings();
   }, { deep: true });
 
-  // Initialize
-  loadSettings();
+  // Initialize only once (singleton pattern)
+  if (!isInitialized) {
+    loadSettings();
+    isInitialized = true;
+  }
 
   return {
     selectedRingtoneId,
@@ -146,7 +226,9 @@ export function useRingtoneStorage() {
     addCustomRingtone,
     removeCustomRingtone,
     validateFile,
+    validateName,
     MAX_FILE_SIZE,
+    MAX_NAME_LENGTH,
     ALLOWED_FORMATS,
   };
 }
