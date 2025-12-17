@@ -50,6 +50,13 @@ Built-in templates:
 - Save custom templates to localStorage
 - Persistent across sessions
 
+### 🔐 Authentication (Optional)
+- Sign in with Google account
+- Sign in with Microsoft account
+- Secure OAuth 2.0 authentication via Firebase
+- User profile display with avatar
+- See [OAuth Setup Guide](docs/OAUTH_SETUP.md) for configuration
+
 ### 🎨 Interface Design
 - Responsive design (mobile & desktop)
 - Dark mode optimized for projection

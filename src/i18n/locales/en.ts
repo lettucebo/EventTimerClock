@@ -65,5 +65,15 @@ export default {
     light: 'Light',
     dark: 'Dark',
     auto: 'Auto (System)'
+  },
+  auth: {
+    signInWithGoogle: 'Sign in with Google',
+    signInWithMicrosoft: 'Sign in with Microsoft',
+    logout: 'Sign out',
+    user: 'User',
+    notConfigured: 'Auth not configured',
+    firebaseNotConfigured: 'Firebase not configured',
+    userMenu: 'User menu',
+    openUserMenu: 'Open user menu'
   }
 }

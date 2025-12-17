@@ -7,6 +7,7 @@
           <p class="subtitle">{{ t('app.subtitle') }}</p>
         </div>
         <div class="header-controls">
+          <AuthButton />
           <ThemeSwitcher />
           <LanguageSwitcher />
         </div>
@@ -62,6 +63,7 @@ import AlarmSettings from './components/AlarmSettings.vue';
 import ToastNotification from './components/ToastNotification.vue';
 import LanguageSwitcher from './components/LanguageSwitcher.vue';
 import ThemeSwitcher from './components/ThemeSwitcher.vue';
+import AuthButton from './components/AuthButton.vue';
 
 const { t } = useI18n();
 

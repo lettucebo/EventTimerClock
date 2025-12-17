@@ -27,3 +27,11 @@ export interface StopwatchState {
   elapsedTime: number;    // 經過時間（毫秒）
   currentPreset: Preset | null;
 }
+
+export interface AuthUser {
+  uid: string;
+  email: string | null;
+  displayName: string | null;
+  photoURL: string | null;
+  provider: 'google' | 'microsoft' | 'unknown';
+}
