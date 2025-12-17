@@ -88,6 +88,14 @@ This project uses GitHub Actions for automatic deployment to GitHub Pages. The d
    - Check the [Deploy workflow](https://github.com/lettucebo/EventTimerClock/actions/workflows/deploy.yml) badge
    - Visit GitHub Pages URL after successful deployment
 
+#### Custom Domain Configuration
+
+This project is configured to work with a custom domain (`timer.yu.money`). The `public/CNAME` file ensures the custom domain setting persists after each deployment. If you want to use a different custom domain:
+
+1. Update the `public/CNAME` file with your domain name
+2. Configure your DNS provider to point to GitHub Pages
+3. Enable custom domain in your repository's GitHub Pages settings
+
 > 📝 **Note**: Regular commits without tags will **not** trigger deployment. This ensures only releases are deployed to production.
 
 ### Installation

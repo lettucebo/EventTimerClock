@@ -88,6 +88,14 @@
    - 查看 [Deploy workflow](https://github.com/lettucebo/EventTimerClock/actions/workflows/deploy.yml) 徽章
    - 部署成功後造訪 GitHub Pages URL
 
+#### 自訂網域設定
+
+此專案已設定為使用自訂網域（`timer.yu.money`）。`public/CNAME` 檔案確保自訂網域設定在每次部署後都能保留。如果您想使用不同的自訂網域：
+
+1. 更新 `public/CNAME` 檔案為您的網域名稱
+2. 設定您的 DNS 供應商指向 GitHub Pages
+3. 在儲存庫的 GitHub Pages 設定中啟用自訂網域
+
 > 📝 **注意**：沒有標籤的一般提交**不會**觸發部署。這確保只有發布版本會部署到正式環境。
 
 ### 安裝
