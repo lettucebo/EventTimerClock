@@ -7,7 +7,11 @@
 
 一款使用 Vue 3、Vite 和 TypeScript 建立的碼錶式活動計時器應用程式。非常適合簡報、演講和活動使用，並具有可自訂的時間響鈴功能。
 
-![Event Timer Clock 截圖](docs/screenshots/app-screenshot-zh-TW.png)
+### 暗色模式
+![Event Timer Clock 暗色模式截圖](docs/screenshots/app-screenshot-dark.png)
+
+### 亮色模式
+![Event Timer Clock 亮色模式截圖](docs/screenshots/app-screenshot-light.png)
 
 ## ✨ 功能特色
 

@@ -22,27 +22,42 @@
   --error-color: #ff4444;
   --error-bg: rgba(255, 68, 68, 0.7);
   --info-color: #4444ff;
+  --btn-start-hover: #00dd77;
+  --btn-pause-bg: #ffa500;
+  --btn-pause-hover: #ff9500;
+  --btn-reset-bg: #ff4444;
+  --btn-reset-hover: #dd3333;
+  --btn-fullscreen-bg: #4444ff;
+  --btn-fullscreen-hover: #3333dd;
 }
 
 /* Light theme */
 :root.light-theme {
-  --bg-primary: #ffffff;
-  --bg-secondary: #f0f0f0;
-  --bg-card: rgba(0, 0, 0, 0.03);
-  --text-primary: #1a1a2e;
-  --text-secondary: #333333;
-  --text-tertiary: #666666;
-  --border-color: rgba(0, 255, 136, 0.4);
-  --border-hover: #00dd77;
-  --shadow-color: rgba(0, 0, 0, 0.15);
-  --primary-shadow: rgba(0, 255, 136, 0.3);
-  --primary-shadow-light: rgba(0, 255, 136, 0.2);
-  --scrollbar-bg: rgba(0, 0, 0, 0.1);
-  --scrollbar-thumb: rgba(0, 255, 136, 0.4);
-  --scrollbar-thumb-hover: rgba(0, 255, 136, 0.6);
-  --error-color: #dd3333;
-  --error-bg: rgba(221, 51, 51, 0.5);
-  --info-color: #3333dd;
+  --primary-color: #ea580c;
+  --bg-primary: #fffbf5;
+  --bg-secondary: #fef3e2;
+  --bg-card: rgba(234, 88, 12, 0.05);
+  --text-primary: #431407;
+  --text-secondary: #78350f;
+  --text-tertiary: #a16207;
+  --border-color: rgba(234, 88, 12, 0.25);
+  --border-hover: var(--primary-color);
+  --shadow-color: rgba(67, 20, 7, 0.08);
+  --primary-shadow: rgba(234, 88, 12, 0.4);
+  --primary-shadow-light: rgba(234, 88, 12, 0.2);
+  --scrollbar-bg: rgba(67, 20, 7, 0.06);
+  --scrollbar-thumb: rgba(234, 88, 12, 0.35);
+  --scrollbar-thumb-hover: rgba(234, 88, 12, 0.5);
+  --error-color: #dc2626;
+  --error-bg: rgba(220, 38, 38, 0.12);
+  --info-color: #2563eb;
+  --btn-start-hover: #c2410c;
+  --btn-pause-bg: #d97706;
+  --btn-pause-hover: #b45309;
+  --btn-reset-bg: #c2410c;
+  --btn-reset-hover: #9a3412;
+  --btn-fullscreen-bg: #b45309;
+  --btn-fullscreen-hover: #92400e;
 }
 
 * {

@@ -116,34 +116,34 @@ onUnmounted(() => {
 }
 
 .btn-start:hover {
-  background: #00dd77;
+  background: var(--btn-start-hover);
 }
 
 .btn-pause {
-  background: #ffa500;
+  background: var(--btn-pause-bg);
   color: var(--bg-primary);
 }
 
 .btn-pause:hover {
-  background: #ff9500;
+  background: var(--btn-pause-hover);
 }
 
 .btn-reset {
-  background: #ff4444;
+  background: var(--btn-reset-bg);
   color: white;
 }
 
 .btn-reset:hover {
-  background: #dd3333;
+  background: var(--btn-reset-hover);
 }
 
 .btn-fullscreen {
-  background: #4444ff;
+  background: var(--btn-fullscreen-bg);
   color: white;
 }
 
 .btn-fullscreen:hover {
-  background: #3333dd;
+  background: var(--btn-fullscreen-hover);
 }
 
 @media (max-width: 768px) {
