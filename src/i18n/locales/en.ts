@@ -62,6 +62,9 @@ export default {
     signInWithMicrosoft: 'Sign in with Microsoft',
     logout: 'Sign out',
     user: 'User',
-    notConfigured: 'Auth not configured'
+    notConfigured: 'Auth not configured',
+    firebaseNotConfigured: 'Firebase not configured',
+    userMenu: 'User menu',
+    openUserMenu: 'Open user menu'
   }
 }

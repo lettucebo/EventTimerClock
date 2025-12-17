@@ -14,16 +14,29 @@ import type { AuthUser } from '../types';
 // Global auth state
 const currentUser = ref<AuthUser | null>(null);
 const isLoading = ref(true);
-const error = ref<string | null>(null);
+const errorKey = ref<string | null>(null);
 
-// Auth providers
-const googleProvider = new GoogleAuthProvider();
-const microsoftProvider = new OAuthProvider('microsoft.com');
+// Auth providers - lazy initialized only when Firebase is configured
+let googleProvider: GoogleAuthProvider | null = null;
+let microsoftProvider: OAuthProvider | null = null;
 
-// Configure Microsoft provider for common tenant (works with any Microsoft account)
-microsoftProvider.setCustomParameters({
-  tenant: 'common',
-});
+function getGoogleProvider(): GoogleAuthProvider {
+  if (!googleProvider) {
+    googleProvider = new GoogleAuthProvider();
+  }
+  return googleProvider;
+}
+
+function getMicrosoftProvider(): OAuthProvider {
+  if (!microsoftProvider) {
+    microsoftProvider = new OAuthProvider('microsoft.com');
+    // Configure Microsoft provider for common tenant (works with any Microsoft account)
+    microsoftProvider.setCustomParameters({
+      tenant: 'common',
+    });
+  }
+  return microsoftProvider;
+}
 
 // Convert Firebase user to AuthUser
 function mapFirebaseUser(user: User | null): AuthUser | null {
@@ -47,11 +60,14 @@ function mapFirebaseUser(user: User | null): AuthUser | null {
   };
 }
 
-// Initialize auth state listener
+// Initialize auth state listener - singleton pattern
 let unsubscribe: (() => void) | null = null;
+let authListenerInitialized = false;
 
 function initAuthListener() {
-  if (!auth || unsubscribe) return;
+  // Ensure listener is only initialized once
+  if (!auth || authListenerInitialized) return;
+  authListenerInitialized = true;
 
   unsubscribe = onAuthStateChanged(auth, (user) => {
     currentUser.value = mapFirebaseUser(user);
@@ -59,9 +75,12 @@ function initAuthListener() {
   }, (authError) => {
     console.error('Auth state change error:', authError);
     isLoading.value = false;
-    error.value = authError.message;
+    errorKey.value = authError.message;
   });
 }
+
+// Initialize listener at module load time (singleton)
+initAuthListener();
 
 export function useAuth() {
   // Check if Firebase is configured
@@ -70,27 +89,28 @@ export function useAuth() {
   // Computed properties
   const isAuthenticated = computed(() => !!currentUser.value);
   const user = computed(() => currentUser.value);
+  const error = computed(() => errorKey.value);
 
   // Sign in with Google
   async function signInWithGoogle(): Promise<boolean> {
     if (!auth) {
-      error.value = 'Firebase not configured';
+      errorKey.value = 'auth.firebaseNotConfigured';
       return false;
     }
 
     try {
-      error.value = null;
+      errorKey.value = null;
       isLoading.value = true;
-      await signInWithPopup(auth, googleProvider);
+      await signInWithPopup(auth, getGoogleProvider());
       return true;
     } catch (e) {
       const authError = e as AuthError;
       // Don't treat popup closed as an error
       if (authError.code === 'auth/popup-closed-by-user' || 
           authError.code === 'auth/cancelled-popup-request') {
-        error.value = null;
+        errorKey.value = null;
       } else {
-        error.value = authError.message;
+        errorKey.value = authError.message;
         console.error('Google sign-in error:', authError);
       }
       return false;
@@ -102,23 +122,23 @@ export function useAuth() {
   // Sign in with Microsoft
   async function signInWithMicrosoft(): Promise<boolean> {
     if (!auth) {
-      error.value = 'Firebase not configured';
+      errorKey.value = 'auth.firebaseNotConfigured';
       return false;
     }
 
     try {
-      error.value = null;
+      errorKey.value = null;
       isLoading.value = true;
-      await signInWithPopup(auth, microsoftProvider);
+      await signInWithPopup(auth, getMicrosoftProvider());
       return true;
     } catch (e) {
       const authError = e as AuthError;
       // Don't treat popup closed as an error
       if (authError.code === 'auth/popup-closed-by-user' || 
           authError.code === 'auth/cancelled-popup-request') {
-        error.value = null;
+        errorKey.value = null;
       } else {
-        error.value = authError.message;
+        errorKey.value = authError.message;
         console.error('Microsoft sign-in error:', authError);
       }
       return false;
@@ -130,17 +150,17 @@ export function useAuth() {
   // Sign out
   async function logout(): Promise<boolean> {
     if (!auth) {
-      error.value = 'Firebase not configured';
+      errorKey.value = 'auth.firebaseNotConfigured';
       return false;
     }
 
     try {
-      error.value = null;
+      errorKey.value = null;
       await signOut(auth);
       return true;
     } catch (e) {
       const authError = e as AuthError;
-      error.value = authError.message;
+      errorKey.value = authError.message;
       console.error('Sign out error:', authError);
       return false;
     }
@@ -151,11 +171,9 @@ export function useAuth() {
     if (unsubscribe) {
       unsubscribe();
       unsubscribe = null;
+      authListenerInitialized = false;
     }
   }
-
-  // Initialize the auth listener
-  initAuthListener();
 
   return {
     // State

@@ -24,15 +24,19 @@ export function isFirebaseConfigured(): boolean {
 
 let app: FirebaseApp | null = null;
 let auth: Auth | null = null;
+let firebaseInitialized = false;
+let firebaseInitializationError: unknown | null = null;
 
 // Initialize Firebase only if configured
 if (isFirebaseConfigured()) {
   try {
     app = initializeApp(firebaseConfig);
     auth = getAuth(app);
+    firebaseInitialized = true;
   } catch (error) {
+    firebaseInitializationError = error;
     console.error('Firebase initialization error:', error);
   }
 }
 
-export { app, auth };
+export { app, auth, firebaseInitialized, firebaseInitializationError };

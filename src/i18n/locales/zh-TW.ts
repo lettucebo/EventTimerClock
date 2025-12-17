@@ -62,6 +62,9 @@ export default {
     signInWithMicrosoft: '使用 Microsoft 登入',
     logout: '登出',
     user: '使用者',
-    notConfigured: '尚未設定驗證'
+    notConfigured: '尚未設定驗證',
+    firebaseNotConfigured: 'Firebase 尚未設定',
+    userMenu: '使用者選單',
+    openUserMenu: '開啟使用者選單'
   }
 }

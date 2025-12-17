@@ -13,7 +13,16 @@
 
     <!-- Authenticated state -->
     <div v-else-if="isAuthenticated" class="auth-user">
-      <div class="user-info" @click="toggleDropdown">
+      <button 
+        class="user-info" 
+        @click="toggleDropdown"
+        @keydown.escape="closeDropdown"
+        @keydown.enter="toggleDropdown"
+        @keydown.space.prevent="toggleDropdown"
+        :aria-expanded="showDropdown"
+        :aria-label="t('auth.openUserMenu')"
+        aria-haspopup="true"
+      >
         <img 
           v-if="user?.photoURL" 
           :src="user.photoURL" 
@@ -24,9 +33,14 @@
           {{ getInitials(user?.displayName || user?.email) }}
         </span>
         <span class="user-name">{{ user?.displayName || user?.email || t('auth.user') }}</span>
-        <span class="dropdown-arrow">▼</span>
-      </div>
-      <div v-if="showDropdown" class="user-dropdown">
+        <span class="dropdown-arrow" aria-hidden="true">▼</span>
+      </button>
+      <div 
+        v-if="showDropdown" 
+        class="user-dropdown" 
+        role="menu" 
+        :aria-label="t('auth.userMenu')"
+      >
         <div class="dropdown-info">
           <span class="provider-badge" :class="user?.provider">
             {{ user?.provider === 'google' ? 'Google' : user?.provider === 'microsoft' ? 'Microsoft' : '' }}
@@ -42,8 +56,13 @@
 
     <!-- Unauthenticated state -->
     <div v-else class="auth-buttons">
-      <button class="login-btn google-btn" @click="handleGoogleLogin" :disabled="isLoading">
-        <svg class="provider-icon" viewBox="0 0 24 24" width="18" height="18">
+      <button 
+        class="login-btn google-btn" 
+        @click="handleGoogleLogin" 
+        :disabled="isLoading"
+        :aria-label="t('auth.signInWithGoogle')"
+      >
+        <svg class="provider-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
           <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
           <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
           <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
@@ -51,8 +70,13 @@
         </svg>
         <span>{{ t('auth.signInWithGoogle') }}</span>
       </button>
-      <button class="login-btn microsoft-btn" @click="handleMicrosoftLogin" :disabled="isLoading">
-        <svg class="provider-icon" viewBox="0 0 24 24" width="18" height="18">
+      <button 
+        class="login-btn microsoft-btn" 
+        @click="handleMicrosoftLogin" 
+        :disabled="isLoading"
+        :aria-label="t('auth.signInWithMicrosoft')"
+      >
+        <svg class="provider-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
           <path fill="#F25022" d="M1 1h10v10H1z"/>
           <path fill="#00A4EF" d="M1 13h10v10H1z"/>
           <path fill="#7FBA00" d="M13 1h10v10H13z"/>
@@ -64,7 +88,7 @@
 
     <!-- Error message -->
     <div v-if="error" class="auth-error">
-      {{ error }}
+      {{ te(error) ? t(error) : error }}
     </div>
   </div>
 </template>
@@ -74,7 +98,7 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAuth } from '../composables/useAuth';
 
-const { t } = useI18n();
+const { t, te } = useI18n();
 const {
   user,
   isAuthenticated,
@@ -102,9 +126,19 @@ function toggleDropdown() {
   showDropdown.value = !showDropdown.value;
 }
 
+function closeDropdown() {
+  showDropdown.value = false;
+}
+
 function handleClickOutside(event: MouseEvent) {
   const target = event.target as HTMLElement;
   if (!target.closest('.auth-user')) {
+    showDropdown.value = false;
+  }
+}
+
+function handleKeyDown(event: KeyboardEvent) {
+  if (event.key === 'Escape' && showDropdown.value) {
     showDropdown.value = false;
   }
 }
@@ -124,10 +158,12 @@ async function handleLogout() {
 
 onMounted(() => {
   document.addEventListener('click', handleClickOutside);
+  document.addEventListener('keydown', handleKeyDown);
 });
 
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside);
+  document.removeEventListener('keydown', handleKeyDown);
   cleanup();
 });
 </script>
@@ -226,10 +262,20 @@ onUnmounted(() => {
   border-radius: 24px;
   cursor: pointer;
   transition: all 0.2s ease;
+  font-size: inherit;
+  font-family: inherit;
+  color: inherit;
 }
 
-.user-info:hover {
+.user-info:hover,
+.user-info:focus {
   background: var(--hover-color);
+  outline: none;
+}
+
+.user-info:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
 }
 
 .user-avatar {
