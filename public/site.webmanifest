@@ -4,7 +4,7 @@
   "description": "A stopwatch-style event timer with customizable time-based alarms",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0f0f1a",
+  "background_color": "#1a1a2e",
   "theme_color": "#00d9ff",
   "icons": [
     {
