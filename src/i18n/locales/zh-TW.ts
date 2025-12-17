@@ -32,7 +32,16 @@ export default {
     add: '新增',
     settedTimePoints: '已設定的時間點',
     triggered: '已觸發',
-    remove: '移除'
+    remove: '移除',
+    autoAlarm: '自動響鈴',
+    autoAlarmDescription: '超過總時間後自動重複響鈴',
+    enabled: '啟用',
+    interval: '響鈴間隔',
+    intervalSeconds: '秒',
+    intervalMinutes: '分鐘',
+    autoRingCount: '每次響鈴次數',
+    maxTriggers: '最大觸發次數',
+    times: '次'
   },
   preset: {
     speech15: '演講模式 (15分鐘)',
