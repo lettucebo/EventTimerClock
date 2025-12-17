@@ -51,6 +51,11 @@ const currentTheme = computed({
   transition: all 0.3s ease;
 }
 
+.theme-select option {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
 .theme-select:hover {
   border-color: var(--border-hover);
 }

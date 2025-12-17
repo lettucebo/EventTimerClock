@@ -52,6 +52,11 @@ function changeLocale() {
   transition: all 0.3s ease;
 }
 
+.language-select option {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
 .language-select:hover {
   border-color: var(--border-hover);
 }
