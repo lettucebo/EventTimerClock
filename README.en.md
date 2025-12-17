@@ -124,6 +124,19 @@ npm run build
 npm run preview
 ```
 
+### Optional: Cloudflare D1 Database Setup
+
+This project includes optional Cloudflare D1 database support for click tracking. See [Cloudflare D1 Setup Guide](docs/CLOUDFLARE_D1_SETUP.md) for detailed instructions.
+
+Quick setup:
+```bash
+# Create database
+wrangler d1 create akamoney-clicks
+
+# Run migrations from project root
+wrangler d1 execute akamoney-clicks --file=./migrations/0001_create_clickinfo.sql
+```
+
 ## 📖 Usage Guide
 
 ### Using Preset Templates

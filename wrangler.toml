@@ -1,0 +1,15 @@
+name = "event-timer-clock"
+main = "src/index.ts"
+compatibility_date = "2024-12-17"
+
+# D1 Database binding
+[[d1_databases]]
+binding = "DB"
+database_name = "akamoney-clicks"
+database_id = "" # Add your D1 database ID here after creating the database
+
+# To create the database, run:
+# wrangler d1 create akamoney-clicks
+#
+# To apply migrations, run from the project root:
+# wrangler d1 execute akamoney-clicks --file=./migrations/0001_create_clickinfo.sql

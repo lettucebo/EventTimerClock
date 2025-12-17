@@ -124,6 +124,19 @@ npm run build
 npm run preview
 ```
 
+### 選用：Cloudflare D1 資料庫設定
+
+本專案包含選用的 Cloudflare D1 資料庫支援，用於點擊追蹤。詳細說明請參閱 [Cloudflare D1 設定指南](docs/CLOUDFLARE_D1_SETUP.md)。
+
+快速設定：
+```bash
+# 建立資料庫
+wrangler d1 create akamoney-clicks
+
+# 從專案根目錄執行遷移
+wrangler d1 execute akamoney-clicks --file=./migrations/0001_create_clickinfo.sql
+```
+
 ## 📖 使用指南
 
 ### 使用預設模板
