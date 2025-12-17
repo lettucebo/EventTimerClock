@@ -1,10 +1,12 @@
 import { ref, watch } from 'vue';
 import type { TimePoint } from '../types';
-import { playBeeps } from '../utils/audio';
+import { playRingtone } from '../utils/audio';
+import { useRingtoneStorage } from './useRingtoneStorage';
 
 export function useAlarm(currentSeconds: () => number) {
   const timePoints = ref<TimePoint[]>([]);
   const isFlashing = ref(false);
+  const { selectedRingtone } = useRingtoneStorage();
 
   watch(
     () => currentSeconds(),
@@ -26,8 +28,8 @@ export function useAlarm(currentSeconds: () => number) {
   );
 
   async function triggerAlarm(ringCount: number) {
-    // 播放響鈴
-    await playBeeps(ringCount);
+    // 播放響鈴 (使用選取的鈴聲)
+    await playRingtone(selectedRingtone.value, ringCount);
     
     // 視覺化閃爍效果
     isFlashing.value = true;
