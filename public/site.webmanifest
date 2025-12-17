@@ -1,0 +1,21 @@
+{
+  "name": "Event Timer Clock",
+  "short_name": "Timer Clock",
+  "description": "A stopwatch-style event timer with customizable time-based alarms",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f0f1a",
+  "theme_color": "#00d9ff",
+  "icons": [
+    {
+      "src": "/favicon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

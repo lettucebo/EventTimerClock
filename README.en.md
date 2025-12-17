@@ -144,6 +144,26 @@ npm run preview
 - **Reset**: Reset to 00:00 and clear all triggered alarms
 - **Fullscreen**: Toggle fullscreen mode
 
+## 🎨 Favicon
+
+The application includes a custom favicon that matches the timer/stopwatch theme:
+
+### Files and Sizes
+| File | Size | Purpose |
+|------|------|---------|
+| `favicon.svg` | Scalable | Modern browsers, best quality |
+| `favicon.ico` | 16x16, 32x32, 48x48 | Legacy browser support |
+| `favicon-16x16.png` | 16×16 | Standard favicon |
+| `favicon-32x32.png` | 32×32 | Retina displays |
+| `favicon-48x48.png` | 48×48 | Windows taskbar |
+| `apple-touch-icon.png` | 180×180 | iOS home screen |
+| `favicon-192x192.png` | 192×192 | Android Chrome |
+| `favicon-512x512.png` | 512×512 | PWA splash screen |
+| `site.webmanifest` | - | PWA manifest |
+
+### Location
+All favicon files are located in the `public/` directory and are automatically served at the root URL by Vite.
+
 ## 🏗️ Project Structure
 
 ```

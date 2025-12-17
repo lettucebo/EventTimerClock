@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <!-- Stopwatch body -->
+  <circle cx="24" cy="26" r="18" fill="#1a1a2e" stroke="#00d9ff" stroke-width="2"/>
+  
+  <!-- Top button -->
+  <rect x="21" y="4" width="6" height="4" rx="1" fill="#00d9ff"/>
+  
+  <!-- Crown (top center) -->
+  <rect x="22" y="7" width="4" height="3" fill="#00d9ff"/>
+  
+  <!-- Inner circle -->
+  <circle cx="24" cy="26" r="14" fill="none" stroke="#00d9ff" stroke-width="1" opacity="0.3"/>
+  
+  <!-- Hour marks -->
+  <line x1="24" y1="13" x2="24" y2="16" stroke="#00d9ff" stroke-width="2" stroke-linecap="round"/>
+  <line x1="24" y1="36" x2="24" y2="39" stroke="#00d9ff" stroke-width="2" stroke-linecap="round"/>
+  <line x1="11" y1="26" x2="14" y2="26" stroke="#00d9ff" stroke-width="2" stroke-linecap="round"/>
+  <line x1="34" y1="26" x2="37" y2="26" stroke="#00d9ff" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- Minute hand -->
+  <line x1="24" y1="26" x2="24" y2="16" stroke="#00d9ff" stroke-width="2.5" stroke-linecap="round"/>
+  
+  <!-- Second hand -->
+  <line x1="24" y1="26" x2="32" y2="20" stroke="#ff6b6b" stroke-width="1.5" stroke-linecap="round"/>
+  
+  <!-- Center dot -->
+  <circle cx="24" cy="26" r="2" fill="#00d9ff"/>
+</svg>

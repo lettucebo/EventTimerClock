@@ -144,6 +144,26 @@ npm run preview
 - **重置**：重置為 00:00 並清除所有已觸發的響鈴
 - **全螢幕**：切換全螢幕模式
 
+## 🎨 Favicon
+
+應用程式包含符合計時器/碼錶主題的自訂 favicon：
+
+### 檔案與尺寸
+| 檔案 | 尺寸 | 用途 |
+|------|------|------|
+| `favicon.svg` | 可縮放 | 現代瀏覽器，最佳品質 |
+| `favicon.ico` | 16x16, 32x32, 48x48 | 舊版瀏覽器支援 |
+| `favicon-16x16.png` | 16×16 | 標準 favicon |
+| `favicon-32x32.png` | 32×32 | Retina 顯示器 |
+| `favicon-48x48.png` | 48×48 | Windows 工作列 |
+| `apple-touch-icon.png` | 180×180 | iOS 主畫面 |
+| `favicon-192x192.png` | 192×192 | Android Chrome |
+| `favicon-512x512.png` | 512×512 | PWA 啟動畫面 |
+| `site.webmanifest` | - | PWA 清單 |
+
+### 位置
+所有 favicon 檔案位於 `public/` 目錄中，由 Vite 自動在根 URL 提供服務。
+
 ## 🏗️ 專案結構
 
 ```
