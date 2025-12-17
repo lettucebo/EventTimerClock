@@ -27,3 +27,19 @@ export interface StopwatchState {
   elapsedTime: number;    // 經過時間（毫秒）
   currentPreset: Preset | null;
 }
+
+// Ringtone types
+export type RingtoneType = 'preset' | 'custom';
+
+export interface Ringtone {
+  id: string;
+  name: string;
+  type: RingtoneType;
+  url?: string;           // URL for preset ringtones (relative path)
+  data?: string;          // Base64 data for custom ringtones
+}
+
+export interface RingtoneSettings {
+  selectedRingtoneId: string;
+  customRingtones: Ringtone[];
+}

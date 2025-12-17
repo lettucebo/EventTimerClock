@@ -115,6 +115,9 @@
         </button>
       </div>
     </div>
+
+    <!-- Ringtone Settings -->
+    <RingtoneSettings />
   </div>
 </template>
 
@@ -125,6 +128,7 @@ import type { TimePoint, Preset, AutoAlarmSettings } from '../types';
 import { useToast } from '../composables/useToast';
 import PresetTemplates from './PresetTemplates.vue';
 import TimePointEditor from './TimePointEditor.vue';
+import RingtoneSettings from './RingtoneSettings.vue';
 
 const { t } = useI18n();
 const { showToast } = useToast();
