@@ -2,7 +2,6 @@ import type { TimePoint, AutoAlarmSettings } from '../types';
 import { ref, watch } from 'vue';
 import { playRingtone } from '../utils/audio';
 import { useRingtoneStorage } from './useRingtoneStorage';
-import { playBeeps } from '../utils/audio';
 
 // Default auto alarm settings
 function createDefaultAutoAlarm(): AutoAlarmSettings {
