@@ -126,7 +126,7 @@ npm run preview
 
 ### 選用：Cloudflare D1 資料庫設定
 
-本專案包含選用的 Cloudflare D1 資料庫支援，用於點擊追蹤。詳細說明請參閱 [Cloudflare D1 設定指南](docs/CLOUDFLARE_D1_SETUP.md)。
+本專案包含選用的 Cloudflare D1 資料庫支援，用於點擊追蹤。詳細說明請參閱 [Cloudflare D1 設定指南](docs/CLOUDFLARE_D1_SETUP.zh-TW.md)，包含部署選項。
 
 快速設定：
 ```bash
@@ -135,7 +135,12 @@ wrangler d1 create akamoney-clicks
 
 # 從專案根目錄執行遷移
 wrangler d1 execute akamoney-clicks --file=./migrations/0001_create_clickinfo.sql
+
+# 部署到 Cloudflare Workers（如果使用 D1 後端）
+wrangler deploy
 ```
+
+**注意**：使用 D1 需要部署到 Cloudflare Workers。請參閱 D1 設定指南中的[部署章節](docs/CLOUDFLARE_D1_SETUP.zh-TW.md#部署)以了解 CI/CD 整合和混合部署選項。
 
 ## 📖 使用指南
 

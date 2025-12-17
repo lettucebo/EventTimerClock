@@ -99,6 +99,88 @@ wrangler d1 execute akamoney-clicks --command="INSERT INTO clickinfo (timestamp,
 wrangler d1 export akamoney-clicks --output=backup.sql
 ```
 
+## 部署
+
+### 部署到 Cloudflare Workers
+
+如果您正在建立使用 D1 資料庫的 Cloudflare Workers 應用程式，可以使用 wrangler 進行部署：
+
+```bash
+# 部署到正式環境
+wrangler deploy
+
+# 部署到特定環境
+wrangler deploy --env production
+```
+
+### 正式環境遷移
+
+部署 Workers 應用程式後，將遷移套用到正式環境資料庫：
+
+```bash
+# 針對正式環境資料庫
+wrangler d1 execute akamoney-clicks --file=./migrations/0001_create_clickinfo.sql --remote
+
+# 或如果使用環境特定的資料庫
+wrangler d1 execute akamoney-clicks --file=./migrations/0001_create_clickinfo.sql --env production --remote
+```
+
+**重要**：使用 `--remote` 旗標對正式環境資料庫執行遷移，而不是本地開發資料庫。
+
+### CI/CD 整合
+
+在 CI/CD 流程（如 GitHub Actions）中進行自動化部署時，您需要：
+
+1. **新增 Cloudflare API Token** 到儲存庫密鑰：
+   - 在此生成權杖：https://dash.cloudflare.com/profile/api-tokens
+   - 在 GitHub 儲存庫密鑰中新增為 `CLOUDFLARE_API_TOKEN`
+
+2. **新增 Account ID** 到儲存庫密鑰：
+   - 在 Cloudflare 儀表板中尋找您的 Account ID
+   - 在 GitHub 儲存庫密鑰中新增為 `CLOUDFLARE_ACCOUNT_ID`
+
+3. **建立部署工作流程**（範例 `.github/workflows/deploy-workers.yml`）：
+
+```yaml
+name: Deploy to Cloudflare Workers
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+      - run: npm run build
+      - name: Deploy to Cloudflare Workers
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+```
+
+### 混合部署
+
+此專案目前設定為部署到 GitHub Pages（靜態網站）。如果您想使用 Cloudflare D1 搭配後端：
+
+1. **選項 A：靜態網站 + API Worker**
+   - 將 Vue 應用程式保持部署在 GitHub Pages
+   - 為 API 端點建立單獨的 Cloudflare Worker
+   - 為跨來源請求設定 CORS
+
+2. **選項 B：完整 Cloudflare 部署**
+   - 更新 `wrangler.toml` 以提供靜態資源
+   - 將前端和後端都部署到 Cloudflare Workers
+   - 使用 Cloudflare Pages 作為前端，Workers 作為 API
+
 ## 疑難排解
 
 ### 路徑錯誤
