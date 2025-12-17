@@ -235,7 +235,7 @@ function saveAsTemplate() {
     name: customName.value,
     totalTime: maxTime,
     timePoints: props.timePoints.map(p => ({ ...p })),
-    autoAlarm: props.autoAlarm.enabled ? { ...props.autoAlarm } : undefined,
+    autoAlarm: { ...props.autoAlarm },
   };
 
   emit('saveCustomPreset', preset);
