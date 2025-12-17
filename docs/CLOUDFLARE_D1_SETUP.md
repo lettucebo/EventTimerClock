@@ -103,7 +103,7 @@ wrangler d1 export akamoney-clicks --output=backup.sql
 
 ### Path Errors
 
-If you encounter path errors like "路徑錯誤" (Path error), ensure you:
+If you encounter path-related errors, ensure you:
 
 1. Are running commands from the project root directory
 2. Use `./migrations/` prefix (with leading `./`)

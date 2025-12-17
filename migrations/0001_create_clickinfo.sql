@@ -1,6 +1,5 @@
 -- Migration: Create clickinfo table
 -- Description: Initial table to store click tracking information
--- Date: 2025-12-17
 
 CREATE TABLE IF NOT EXISTS clickinfo (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
