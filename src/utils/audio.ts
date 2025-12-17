@@ -161,7 +161,7 @@ export async function playCustomRingtone(ringtone: Ringtone): Promise<void> {
 
       audio.play().catch(reject);
     } catch (err) {
-      reject(err);
+      reject(new Error(`Failed to play custom ringtone: ${err instanceof Error ? err.message : String(err)}`));
     }
   });
 }
