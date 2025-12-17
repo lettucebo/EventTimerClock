@@ -29,12 +29,14 @@
       <AlarmSettings 
         :time-points="timePoints"
         :custom-presets="customPresets"
-        @select-preset="(preset: Preset) => { clearTimePoints(); setTimePoints(preset.timePoints); }"
+        :auto-alarm="autoAlarm"
+        @select-preset="handleSelectPreset"
         @add-time-point="addTimePoint"
         @remove-time-point="removeTimePoint"
         @clear-time-points="clearTimePoints"
         @save-custom-preset="addCustomPreset"
         @delete-custom-preset="removeCustomPreset"
+        @update-auto-alarm="handleUpdateAutoAlarm"
       />
     </main>
 
@@ -49,7 +51,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import type { Preset } from './types';
+import type { Preset, AutoAlarmSettings } from './types';
 import { useStopwatch } from './composables/useStopwatch';
 import { useAlarm } from './composables/useAlarm';
 import { useStorage } from './composables/useStorage';
@@ -85,13 +87,17 @@ const {
 
 // Alarm logic
 const { 
-  timePoints, 
+  timePoints,
+  autoAlarm,
   isFlashing,
   addTimePoint,
   removeTimePoint,
   clearTimePoints,
   resetTriggers,
   setTimePoints,
+  setAutoAlarm,
+  updateAutoAlarm,
+  resetAutoAlarm,
 } = useAlarm(() => currentSeconds.value);
 
 // Storage logic
@@ -100,6 +106,20 @@ const {
   addCustomPreset,
   removeCustomPreset,
 } = useStorage();
+
+function handleSelectPreset(preset: Preset) {
+  clearTimePoints();
+  setTimePoints(preset.timePoints);
+  if (preset.autoAlarm) {
+    setAutoAlarm(preset.autoAlarm);
+  } else {
+    resetAutoAlarm();
+  }
+}
+
+function handleUpdateAutoAlarm(settings: Partial<AutoAlarmSettings>) {
+  updateAutoAlarm(settings);
+}
 </script>
 
 <style scoped>

@@ -32,7 +32,16 @@ export default {
     add: 'Add',
     settedTimePoints: 'Configured Time Points',
     triggered: 'Triggered',
-    remove: 'Remove'
+    remove: 'Remove',
+    autoAlarm: 'Auto Alarm',
+    autoAlarmDescription: 'Auto repeat alarm after total time exceeded',
+    enabled: 'Enabled',
+    interval: 'Interval',
+    intervalSeconds: 'seconds',
+    intervalMinutes: 'minutes',
+    autoRingCount: 'Rings per trigger',
+    maxTriggers: 'Max triggers',
+    times: 'times'
   },
   preset: {
     speech15: 'Speech Mode (15 min)',
