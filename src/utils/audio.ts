@@ -27,7 +27,7 @@ export interface PresetRingtoneConfig {
   frequency: number;
   waveType: OscillatorType;
   duration: number;
-  pattern: number[];  // Pattern of delays (ms) between notes; if there are more notes than pattern values, the pattern repeats using modulo arithmetic (e.g., pattern [100, 200] with 4 notes yields delays: 100, 200, 100, 200)
+  pattern: number[];  // Delays (ms) between notes; repeats if fewer values than notes
   notes?: number[];   // Multiple frequencies for melody
 }
 

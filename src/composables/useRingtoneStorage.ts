@@ -10,6 +10,13 @@ const MAX_FILE_SIZE = 512 * 1024;
 // Maximum name length for custom ringtones
 const MAX_NAME_LENGTH = 50;
 
+// Maximum characters to show in error preview
+const ERROR_PREVIEW_MAX_LENGTH = 200;
+
+// Legacy DOMException codes for quota exceeded errors in older browsers
+const LEGACY_QUOTA_EXCEEDED_CODE_WEBKIT = 22;
+const LEGACY_QUOTA_EXCEEDED_CODE_FIREFOX = 1014;
+
 // Allowed audio formats (MIME types)
 export const ALLOWED_FORMATS = ['audio/mpeg', 'audio/wav', 'audio/ogg', 'audio/mp3'];
 
@@ -40,7 +47,9 @@ export function useRingtoneStorage() {
       }
     } catch (error) {
       const storedValuePreview =
-        stored && stored.length > 200 ? stored.slice(0, 200) + '…' : stored;
+        stored && stored.length > ERROR_PREVIEW_MAX_LENGTH 
+          ? stored.slice(0, ERROR_PREVIEW_MAX_LENGTH) + '…' 
+          : stored;
       console.error(
         'Failed to load ringtone settings from localStorage. Stored value will be reset.',
         {
@@ -70,9 +79,8 @@ export function useRingtoneStorage() {
       if (error instanceof DOMException) {
         const quotaExceeded =
           error.name === 'QuotaExceededError' ||
-          // Legacy codes for quota errors in some browsers
-          error.code === 22 ||
-          error.code === 1014;
+          error.code === LEGACY_QUOTA_EXCEEDED_CODE_WEBKIT ||
+          error.code === LEGACY_QUOTA_EXCEEDED_CODE_FIREFOX;
 
         if (quotaExceeded) {
           message =
